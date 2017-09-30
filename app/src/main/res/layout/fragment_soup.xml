@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_visit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="---当前访问总人次：85  ---"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_soup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_soup"
+        android:layout_marginTop="50dp"
+        android:text="网友评论"
+        android:textColor="@color/Orange"
+        android:textSize="14sp" />
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/rfl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_comment">
+
+        <ListView
+            android:id="@+id/mlv_comments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"></ListView>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fb_post_comment"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp"
+        android:src="@mipmap/address_add" />
+</RelativeLayout>
