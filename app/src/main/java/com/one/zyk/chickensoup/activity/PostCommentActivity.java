@@ -55,6 +55,9 @@ public class PostCommentActivity extends BaseActivity {
                     return;
                 }
                 ServiceRequest.postComment(this, SoupApp.IMEI, getIntent().getStringExtra("soupId"), et_comment.getText().toString());
+
+                Log.e(TAG, "postComment: --------SoupApp.IMEI:"+SoupApp.IMEI );
+
                 KeyBoardUtils.closeKeybord(et_comment, this);
                 break;
             case R.id.tv_back:
