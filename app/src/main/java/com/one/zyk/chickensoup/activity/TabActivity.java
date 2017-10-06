@@ -11,7 +11,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.one.zyk.chickensoup.R;
 import com.one.zyk.chickensoup.bean.TabEntity;
-import com.one.zyk.chickensoup.fragment.SimpleCardFragment;
+import com.one.zyk.chickensoup.fragment.CommunityFragment;
 import com.one.zyk.chickensoup.fragment.SoupFragment;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class TabActivity extends BaseActivity {
         setContentView(R.layout.activity_tab);
         ButterKnife.bind(this);
         mFragments.add(SoupFragment.getInstance("Switch ViewPager "));
-        mFragments.add(SimpleCardFragment.getInstance("Switch ViewPager "));
+        mFragments.add(CommunityFragment.getInstance("Switch ViewPager "));
 
         /** indicator圆角色块 */
         mTabLayout_8 = (CommonTabLayout) findViewById(R.id.tl_8);
