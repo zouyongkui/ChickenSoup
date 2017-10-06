@@ -76,11 +76,16 @@ public class PostCommentActivity extends BaseActivity {
 
     @Subscribe
     public void updateComment(CommentBean bean) {
-        if (bean != null && bean.getCode() == 1) {
+        if (bean == null) {
+            Toast.makeText(this, "评论失败...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (bean.getCode() == 1) {
             Toast.makeText(this, "评论成功！", Toast.LENGTH_SHORT).show();
             finish();
-        } else {
-            Toast.makeText(this, "评论失败...", Toast.LENGTH_SHORT).show();
+        } else if (bean.getCode() == -1) {
+            et_comment.setText("");
+            Toast.makeText(this, "小盆友，不要挑事哦，不要出现作者名称哦...", Toast.LENGTH_SHORT).show();
         }
     }
 }

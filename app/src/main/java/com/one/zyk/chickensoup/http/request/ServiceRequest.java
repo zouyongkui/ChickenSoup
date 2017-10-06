@@ -29,26 +29,26 @@ public class ServiceRequest {
 
 
     public static void versionChecker(final Handle handle, String version, int versionCode) {
-        ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.versionChecker(version, versionCode).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        NetError netError = new NetError(e.getMessage(), 500);
-                        handle.handleObject(netError);
-                    }
-
-                    @Override
-                    public void onNext(String o) {
-                        Log.e("v---", o + "  ss");
-                        handle.handleObject("");
-                    }
-                });
+//        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+//        serviceApi.versionChecker(version, versionCode).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        NetError netError = new NetError(e.getMessage(), 500);
+//                        handle.handleObject(netError);
+//                    }
+//
+//                    @Override
+//                    public void onNext(String o) {
+//                        Log.e("v---", o + "  ss");
+//                        handle.handleObject("");
+//                    }
+//                });
     }
 
     public static void updateSoup(final Handle handle, String content) {
@@ -205,6 +205,28 @@ public class ServiceRequest {
                     @Override
                     public void onNext(String json) {
                         handle.handleObject(JsonConverter.visitCountBean(json));
+                    }
+                });
+    }
+
+    public static void getUserId(final Handle handle, String deviceId, String deviceName, String phoneNum) {
+        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+        serviceApi.getUserId(phoneNum, deviceId, deviceName).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        NetError netError = new NetError(e.getMessage(), 500);
+                        handle.handleObject(netError);
+                    }
+
+                    @Override
+                    public void onNext(String json) {
+                        handle.handleObject(json);
                     }
                 });
     }
