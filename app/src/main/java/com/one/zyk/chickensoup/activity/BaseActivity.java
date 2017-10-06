@@ -7,9 +7,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.jaeger.library.StatusBarUtil;
 import com.one.zyk.chickensoup.R;
+import com.one.zyk.chickensoup.constant.Constant;
 import com.one.zyk.chickensoup.http.Handle;
 import com.one.zyk.chickensoup.SoupApp;
 import com.one.zyk.chickensoup.http.Subscribe;
+import com.one.zyk.chickensoup.utils.SPUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,12 +26,14 @@ import retrofit2.Retrofit;
 public abstract class BaseActivity extends AppCompatActivity implements Handle {
     protected Toolbar toolbar;
     protected String TAG;
+    protected SPUtils mUserSp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //打印日志
         TAG = this.getClass().getName();
+        mUserSp = SPUtils.getInstance(Constant.db_user);
         //设置状态栏 颜色和透明度，，兼容4.4手机
 //        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.colorStatusBar));
     }

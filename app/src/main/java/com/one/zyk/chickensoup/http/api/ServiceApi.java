@@ -8,46 +8,38 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public interface ServiceApi {
-    static int versionCode = 3;
-
-    @GET("/ztcaipiao/app/versionChecker.json")
-    Observable<String> versionChecker(@Query("version") String version,
-                                      @Query("versionCode") int versionCode);
-
-    @FormUrlEncoded
-    @POST("/ztcaipiaomanagement/login")
-    Observable<String> login(@Field("username") String account,
-                             @Field("password") String passwd);
-
     //更新鸡汤
     @FormUrlEncoded
-    @POST("/soup/updatesoup")
+    @POST("api2api2/soup/updatesoup")
     Observable<String> updateSoup(@Field("content") String content);
 
     //获取鸡汤
-    @GET("/soup/getsoup")
+    @GET("api2/soup/getsoup")
     Observable<String> getSoup(@Query("deviceid") String deviceid, @Query("brandname") String brandname);
 
     //更新评论
     @FormUrlEncoded
-    @POST("/soup/updatecomment")
+    @POST("api2/soup/updatecomment")
     Observable<String> updateComment(@Field("userid") String userid, @Field("soupid") String soupid, @Field("content") String content);
 
     //获取评论
-    @GET("/soup/getcomment")
+    @GET("api2/soup/getcomment")
     Observable<String> getcomment(@Query("soupid") String soupid);
 
     //获取浏览次数
-    @GET("/soup/getvisitcount")
+    @GET("api2/soup/getvisitcount")
     Observable<String> getVisitCount();
 
-    @GET("/soup/getcomment")
+    @GET("api2/soup/getcomment")
     Observable<String> getCommentList(@Query("soupid") String soupId);
 
 
-    @GET("/soup/getsouplist")
+    @GET("api2/soup/getsouplist")
     Observable<String> getSoupList();
 
-    @GET("/soup/delcomment")
+    @GET("api2/soup/delcomment")
     Observable<String> delComment(@Query("commentid") String commentId);
+
+    @GET("api2/soup/getUserId")
+    Observable<String> delComment(@Query("deviceid") String deviceId, @Query("brandname") String brandname);
 }
