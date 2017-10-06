@@ -50,6 +50,4 @@ public class JsonConverter {
         VisitCountBean bean = gson.fromJson(json, VisitCountBean.class);
         return bean;
     }
-
-
 }

@@ -10,36 +10,36 @@ import rx.Observable;
 public interface ServiceApi {
     //更新鸡汤
     @FormUrlEncoded
-    @POST("api2api2/soup/updatesoup")
+    @POST("soup/api2/updatesoup")
     Observable<String> updateSoup(@Field("content") String content);
 
     //获取鸡汤
-    @GET("api2/soup/getsoup")
+    @GET("soup/api2/getsoup")
     Observable<String> getSoup(@Query("deviceid") String deviceid, @Query("brandname") String brandname);
 
     //更新评论
     @FormUrlEncoded
-    @POST("api2/soup/updatecomment")
+    @POST("soup/api2/updatecomment")
     Observable<String> updateComment(@Field("userid") String userid, @Field("soupid") String soupid, @Field("content") String content);
 
     //获取评论
-    @GET("api2/soup/getcomment")
+    @GET("soup/api2/getcomment")
     Observable<String> getcomment(@Query("soupid") String soupid);
 
     //获取浏览次数
-    @GET("api2/soup/getvisitcount")
+    @GET("soup/api2/getvisitcount")
     Observable<String> getVisitCount();
 
-    @GET("api2/soup/getcomment")
+    @GET("soup/api2/getcomment")
     Observable<String> getCommentList(@Query("soupid") String soupId);
 
 
-    @GET("api2/soup/getsouplist")
+    @GET("soup/api2/getsouplist")
     Observable<String> getSoupList();
 
-    @GET("api2/soup/delcomment")
+    @GET("soup/api2/delcomment")
     Observable<String> delComment(@Query("commentid") String commentId);
 
-    @GET("api2/soup/getUserId")
-    Observable<String> delComment(@Query("deviceid") String deviceId, @Query("brandname") String brandname);
+    @GET("soup/api2/getUserId")
+    Observable<String> getUserId(@Query("phoneNum") String phoneNum,@Query("deviceid") String deviceId, @Query("brandname") String brandName);
 }

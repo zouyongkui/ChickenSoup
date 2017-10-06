@@ -3,6 +3,7 @@ package com.one.zyk.chickensoup.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +36,8 @@ public class SoupFragment extends BaseFragment {
 
     @BindView(R.id.tv_soup)
     TextView tv_soup;
-    @BindView(R.id.rfl_refresh)
-    TwinklingRefreshLayout rfl_refresh;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout srl;
     @BindView(R.id.mlv_comments)
     ListView mlv;
     @BindView(R.id.tv_visit)
@@ -46,8 +47,6 @@ public class SoupFragment extends BaseFragment {
     @BindView(R.id.fb_post_comment)
     FloatingActionButton fb_post_comment;
     private List<CommentBean.DataBean> dataBeanList;
-    private final String IMEI = DeviceUtils.getIMEI();
-    private final String BRAND = DeviceUtils.getDeviceBrand() + DeviceUtils.getSystemModel();
     private String soupId = "";
     private CommentsAdapter mCommentsAdapter;
 
@@ -70,18 +69,25 @@ public class SoupFragment extends BaseFragment {
     }
 
     protected void initView() {
-        rfl_refresh.setEnableLoadmore(false);
-        rfl_refresh.setHeaderView(new SinaRefreshView(getActivity()));
-        rfl_refresh.setOnRefreshListener(new RefreshListenerAdapter() {
+        srl.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                super.onRefresh(refreshLayout);
+            public void onRefresh() {
                 initSoupInfo();
             }
         });
+        ServiceRequest.getVisitCount(this);
+        ServiceRequest.getSoup(this, "", "");
         dataBeanList = new ArrayList<>();
         mCommentsAdapter = new CommentsAdapter(dataBeanList, getActivity());
         mlv.setAdapter(mCommentsAdapter);
+    }
+
+    private void initSoupInfo() {
+        ServiceRequest.getVisitCount(this);
+        ServiceRequest.getSoup(this, "", "");
     }
 
     @Override
@@ -90,29 +96,36 @@ public class SoupFragment extends BaseFragment {
         initSoupInfo();
     }
 
-    private void initSoupInfo() {
-        ServiceRequest.getSoup(this, IMEI, BRAND);
-        ServiceRequest.getVisitCount(this);
-    }
-
     @Subscribe
     public void getSoup(SoupBean bean) {
-        try {
-            tv_soup.setText("       " + bean.getSoup());
+        if (bean != null) {
             soupId = bean.getSoupid();
-            Log.e("---", soupId);
-            ServiceRequest.getCommentList(this, soupId);
-        } catch (Exception e) {
-            e.printStackTrace();
+            tv_soup.setText("       " + bean.getSoup());
+            srl.setRefreshing(false);
+            dataBeanList.clear();
+            for (SoupBean.DataBean d : bean.getData()) {
+                CommentBean.DataBean data = new CommentBean.DataBean();
+                data.setContent(d.getContent());
+                data.setCreatetime(d.getCreatetime());
+                data.setId(d.getId());
+                data.setSoupid(d.getSoupid());
+                data.setUserid(d.getUserid());
+                dataBeanList.add(data);
+            }
+            if (dataBeanList == null || dataBeanList.size() == 0) {
+                tv_comment.setText("还没有评论哦，快来抢占沙发吧！");
+            } else {
+                tv_comment.setText("--网友评论--");
+            }
+            Collections.reverse(dataBeanList); // 倒序排列
+            mCommentsAdapter.setDataBeanList(dataBeanList);
         }
-        if (!tv_soup.getText().toString().equals("")) {
-            rfl_refresh.finishRefreshing();
-        }
+
     }
 
     @Subscribe
     public void updateComment(CommentBean bean) {
-        rfl_refresh.finishRefreshing();
+        srl.setRefreshing(false);
         dataBeanList = bean.getData();
         if (dataBeanList == null || dataBeanList.size() == 0) {
             tv_comment.setText("还没有评论哦，快来抢占沙发吧！");

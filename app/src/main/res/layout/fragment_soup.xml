@@ -31,8 +31,8 @@
         android:textColor="@color/Orange"
         android:textSize="14sp" />
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/rfl_refresh"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv_comment">
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"></ListView>
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fb_post_comment"
