@@ -1,6 +1,8 @@
 package com.one.zyk.chickensoup.activity;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -84,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Handle {
         return ((SoupApp) getApplication()).retrofit();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void handleObject(Object o) {
         if (isFinishing()) {

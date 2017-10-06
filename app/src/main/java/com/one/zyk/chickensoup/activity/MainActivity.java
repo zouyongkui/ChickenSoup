@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.activity.adapter.CommentsAdapter;
 import com.one.zyk.chickensoup.bean.SoupBean;
 import com.one.zyk.chickensoup.bean.VisitCountBean;
 import com.one.zyk.chickensoup.utils.DeviceUtils;

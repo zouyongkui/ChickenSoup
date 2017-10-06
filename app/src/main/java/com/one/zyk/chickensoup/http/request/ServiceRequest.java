@@ -28,6 +28,7 @@ public class ServiceRequest {
     }
 
 
+/*
     public static void versionChecker(final Handle handle, String version, int versionCode) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.versionChecker(version, versionCode).subscribeOn(Schedulers.io())
@@ -50,6 +51,7 @@ public class ServiceRequest {
                     }
                 });
     }
+*/
 
     public static void updateSoup(final Handle handle, String content) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
@@ -153,6 +155,8 @@ public class ServiceRequest {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("json", e.getMessage());
+
                         NetError netError = new NetError(e.getMessage(), 500);
                         handle.handleObject(netError);
                     }

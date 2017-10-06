@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.activity.adapter;
 
 import android.content.Context;
 import android.content.Intent;

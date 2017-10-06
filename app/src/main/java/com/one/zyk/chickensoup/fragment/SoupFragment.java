@@ -14,7 +14,7 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.one.zyk.chickensoup.R;
-import com.one.zyk.chickensoup.activity.CommentsAdapter;
+import com.one.zyk.chickensoup.activity.adapter.CommentsAdapter;
 import com.one.zyk.chickensoup.activity.PostCommentActivity;
 import com.one.zyk.chickensoup.bean.CommentBean;
 import com.one.zyk.chickensoup.bean.SoupBean;

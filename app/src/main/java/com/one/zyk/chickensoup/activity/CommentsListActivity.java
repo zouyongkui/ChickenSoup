@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.one.zyk.chickensoup.R;
+import com.one.zyk.chickensoup.activity.adapter.CommentListAdapter;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.bean.CommentBean;
 import com.one.zyk.chickensoup.http.request.ServiceRequest;
