@@ -1,18 +1,18 @@
 package com.one.zyk.chickensoup.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.one.zyk.chickensoup.R;
+import com.one.zyk.chickensoup.constant.Constant;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashActivity extends AppCompatActivity {
-
+public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +31,13 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 1000);
+    }
+
+    @Override
+    protected void initView() {
+        String userId = mUserSp.getString(Constant.useId);
+        if (TextUtils.isEmpty(userId)) {
+
+        }
     }
 }

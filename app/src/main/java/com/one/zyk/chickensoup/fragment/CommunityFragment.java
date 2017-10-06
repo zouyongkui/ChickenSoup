@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.one.zyk.chickensoup.R;
 
 @SuppressLint("ValidFragment")
-public class SimpleCardFragment extends Fragment {
+public class CommunityFragment extends Fragment {
     private String mTitle;
 
-    public static SimpleCardFragment getInstance(String title) {
-        SimpleCardFragment sf = new SimpleCardFragment();
+    public static CommunityFragment getInstance(String title) {
+        CommunityFragment sf = new CommunityFragment();
         sf.mTitle = title;
         return sf;
     }

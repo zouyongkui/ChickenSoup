@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
-import com.one.zyk.chickensoup.BaseFragment;
 import com.one.zyk.chickensoup.R;
 import com.one.zyk.chickensoup.activity.CommentsAdapter;
 import com.one.zyk.chickensoup.activity.PostCommentActivity;
