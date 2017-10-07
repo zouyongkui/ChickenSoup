@@ -1,8 +1,8 @@
-package com.one.zyk.chickensoup.fragment;
+package com.one.zyk.chickensoup.base;
 
 import android.support.v4.app.Fragment;
 
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.app.SoupApp;
 import com.one.zyk.chickensoup.http.Handle;
 import com.one.zyk.chickensoup.http.Subscribe;
 

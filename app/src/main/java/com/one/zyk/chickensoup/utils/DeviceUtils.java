@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.app.SoupApp;
 
 import java.io.File;
 import java.io.FileOutputStream;

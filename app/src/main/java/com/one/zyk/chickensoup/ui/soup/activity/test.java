@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.ui.soup.activity;
 
 import android.content.Intent;
 import android.os.SystemClock;

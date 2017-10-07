@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.fragment;
+package com.one.zyk.chickensoup.ui.soup.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

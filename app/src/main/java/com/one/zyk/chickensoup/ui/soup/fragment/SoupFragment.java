@@ -1,28 +1,24 @@
-package com.one.zyk.chickensoup.fragment;
+package com.one.zyk.chickensoup.ui.soup.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.one.zyk.chickensoup.R;
-import com.one.zyk.chickensoup.activity.adapter.CommentsAdapter;
-import com.one.zyk.chickensoup.activity.PostCommentActivity;
+import com.one.zyk.chickensoup.base.BaseFragment;
+import com.one.zyk.chickensoup.ui.soup.adapter.CommentsAdapter;
+import com.one.zyk.chickensoup.ui.soup.activity.PostCommentActivity;
 import com.one.zyk.chickensoup.bean.CommentBean;
 import com.one.zyk.chickensoup.bean.SoupBean;
 import com.one.zyk.chickensoup.bean.VisitCountBean;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.http.request.ServiceRequest;
-import com.one.zyk.chickensoup.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

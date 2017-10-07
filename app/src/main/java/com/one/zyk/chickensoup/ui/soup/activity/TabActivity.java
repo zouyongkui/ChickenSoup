@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.ui.soup.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +10,10 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.one.zyk.chickensoup.R;
+import com.one.zyk.chickensoup.base.BaseActivity;
 import com.one.zyk.chickensoup.bean.TabEntity;
-import com.one.zyk.chickensoup.fragment.CommunityFragment;
-import com.one.zyk.chickensoup.fragment.SoupFragment;
+import com.one.zyk.chickensoup.ui.soup.fragment.CommunityFragment;
+import com.one.zyk.chickensoup.ui.soup.fragment.SoupFragment;
 
 import java.util.ArrayList;
 

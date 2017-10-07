@@ -1,13 +1,9 @@
-package com.one.zyk.chickensoup;
+package com.one.zyk.chickensoup.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.provider.CalendarContract;
-
 import com.one.zyk.chickensoup.http.PublicParamInterceptor;
 import com.one.zyk.chickensoup.http.Urls;
-import com.one.zyk.chickensoup.utils.DeviceUtils;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -22,8 +18,7 @@ public class SoupApp extends Application {
     public static boolean DEBUG = true;
     public static Context context;
     private Retrofit retrofit;
-    public static String IMEI = "";
-    public static String BRAND = "";
+
 
     public Retrofit retrofit() {
         return retrofit;
@@ -34,8 +29,7 @@ public class SoupApp extends Application {
         super.onCreate();
         context = this;
         initNetConfig();
-        IMEI = DeviceUtils.getIMEI();
-        BRAND = DeviceUtils.getDeviceBrand() + DeviceUtils.getSystemModel();
+
     }
 
     private void initNetConfig() {

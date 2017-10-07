@@ -1,17 +1,14 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.base;
 
 import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.jaeger.library.StatusBarUtil;
-import com.one.zyk.chickensoup.R;
-import com.one.zyk.chickensoup.constant.Constant;
+import com.one.zyk.chickensoup.app.Constant;
 import com.one.zyk.chickensoup.http.Handle;
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.app.SoupApp;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.utils.SPUtils;
 

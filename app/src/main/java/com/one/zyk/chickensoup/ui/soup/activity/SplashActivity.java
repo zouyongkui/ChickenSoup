@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.ui.soup.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.one.zyk.chickensoup.R;
-import com.one.zyk.chickensoup.constant.Constant;
+import com.one.zyk.chickensoup.base.BaseActivity;
+import com.one.zyk.chickensoup.app.Constant;
 import com.one.zyk.chickensoup.http.NetError;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.http.request.ServiceRequest;

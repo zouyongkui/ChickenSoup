@@ -1,6 +1,8 @@
-package com.one.zyk.chickensoup.activity.adapter;
+package com.one.zyk.chickensoup.ui.soup.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +22,19 @@ import butterknife.ButterKnife;
  * Created by zyk on 2017/9/23.
  */
 
-public class CommentListAdapter extends BaseAdapter {
-
+public class CommentsAdapter extends BaseAdapter {
     private List<CommentBean.DataBean> dataBeanList;
     private Context mContext;
     private int mSize = 0;
 
-    public CommentListAdapter(List<CommentBean.DataBean> dataBeanList, Context context) {
-        this.dataBeanList = dataBeanList;
-        this.mContext = context;
-    }
-
-    public void setmCommentList(List<CommentBean.DataBean> dataBeanList) {
+    public void setDataBeanList(List<CommentBean.DataBean> dataBeanList) {
         this.dataBeanList = dataBeanList;
         notifyDataSetChanged();
+    }
+
+    public CommentsAdapter(List<CommentBean.DataBean> dataBeanList, Context context) {
+        this.dataBeanList = dataBeanList;
+        this.mContext = context;
     }
 
     @Override
@@ -70,14 +71,11 @@ public class CommentListAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-
         @BindView(R.id.tv_comment)
         TextView tv_comment;
 
-
         public ViewHolder(View view) {
-            Log.e("qqq", view.toString());
-            ButterKnife.bind(this, view);
+            ButterKnife.bind(ViewHolder.this, view);
         }
     }
 }

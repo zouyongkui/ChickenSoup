@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.util.SimpleArrayMap;
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.app.SoupApp;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;

@@ -1,21 +1,20 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.ui.soup.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.one.zyk.chickensoup.R;
-import com.one.zyk.chickensoup.SoupApp;
+import com.one.zyk.chickensoup.base.BaseActivity;
 import com.one.zyk.chickensoup.bean.CommentBean;
+import com.one.zyk.chickensoup.app.Constant;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.http.request.ServiceRequest;
 import com.one.zyk.chickensoup.utils.KeyBoardUtils;
-
+import com.one.zyk.chickensoup.ui.management.ManagementActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,10 +53,7 @@ public class PostCommentActivity extends BaseActivity {
                     Toast.makeText(this, "评论内容不能为空哦！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ServiceRequest.postComment(this, SoupApp.IMEI, getIntent().getStringExtra("soupId"), et_comment.getText().toString());
-
-                Log.e(TAG, "postComment: --------SoupApp.IMEI:"+SoupApp.IMEI );
-
+                ServiceRequest.postComment(this, mUserSp.getString(Constant.useId), getIntent().getStringExtra("soupId"), et_comment.getText().toString());
                 KeyBoardUtils.closeKeybord(et_comment, this);
                 break;
             case R.id.tv_back:

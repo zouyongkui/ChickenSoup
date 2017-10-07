@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity;
+package com.one.zyk.chickensoup.ui.soup.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

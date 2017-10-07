@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.one.zyk.chickensoup.activity.CommentManagementActivity">
+    tools:context="com.one.zyk.chickensoup.com.one.zyk.management.CommentManagementActivity">
 
     <ListView
         android:id="@+id/lv_comments"

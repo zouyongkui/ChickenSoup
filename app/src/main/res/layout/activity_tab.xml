@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="com.one.zyk.chickensoup.activity.TabActivity">
+    tools:context="com.one.zyk.chickensoup.ui.soup.activity.TabActivity">
 
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tl_8"

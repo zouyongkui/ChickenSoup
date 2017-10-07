@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.one.zyk.chickensoup.activity.PostCommentActivity">
+    tools:context="com.one.zyk.chickensoup.ui.soup.activity.PostCommentActivity">
 
     <TextView
         android:id="@+id/tv_back"

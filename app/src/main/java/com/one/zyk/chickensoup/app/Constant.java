@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.constant;
+package com.one.zyk.chickensoup.app;
 
 /**
  * Created by zyk on 2017/10/6.

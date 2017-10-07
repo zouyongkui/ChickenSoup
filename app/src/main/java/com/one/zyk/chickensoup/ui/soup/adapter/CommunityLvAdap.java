@@ -1,4 +1,4 @@
-package com.one.zyk.chickensoup.activity.adapter;
+package com.one.zyk.chickensoup.ui.soup.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
