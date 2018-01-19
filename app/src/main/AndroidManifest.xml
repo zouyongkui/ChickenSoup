@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".app.SoupApp"
@@ -23,8 +25,7 @@
         <activity
             android:name=".ui.soup.activity.SplashTestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme_Umeng_Push_Splash">
-        </activity>
+            android:theme="@style/Theme_Umeng_Push_Splash"></activity>
         <activity
             android:name=".ui.soup.activity.PostCommentActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
