@@ -7,6 +7,8 @@ import com.one.zyk.chickensoup.http.JsonConverter;
 import com.one.zyk.chickensoup.http.NetError;
 import com.one.zyk.chickensoup.http.api.ServiceApi;
 
+import java.io.File;
+
 import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,9 +55,9 @@ public class ServiceRequest {
     }
 */
 
-    public static void updateSoup(final Handle handle, String content) {
+    public static void updateSoup(final Handle handle, String content, File file) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.updateSoup(content).subscribeOn(Schedulers.io())
+        serviceApi.updateSoup(content, file).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override

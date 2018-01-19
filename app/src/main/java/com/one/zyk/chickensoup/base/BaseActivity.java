@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.jaeger.library.StatusBarUtil;
+import com.one.zyk.chickensoup.R;
 import com.one.zyk.chickensoup.app.Constant;
 import com.one.zyk.chickensoup.http.Handle;
 import com.one.zyk.chickensoup.app.SoupApp;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.utils.SPUtils;
+import com.umeng.message.PushAgent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,7 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Handle {
         TAG = this.getClass().getName();
         mUserSp = SPUtils.getInstance(Constant.db_user);
         //设置状态栏 颜色和透明度，，兼容4.4手机
-//        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.colorStatusBar));
+        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.main_color_black));
+        PushAgent.getInstance(this).onAppStart();
+
     }
 
     @Override

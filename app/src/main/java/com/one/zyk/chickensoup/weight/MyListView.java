@@ -15,27 +15,23 @@ import android.widget.ListView;
 public class MyListView extends ListView {
 
     public MyListView(Context context) {
-        // TODO Auto-generated method stub
         super(context);
     }
 
     public MyListView(Context context, AttributeSet attrs) {
-        // TODO Auto-generated method stub
         super(context, attrs);
     }
 
     public MyListView(Context context, AttributeSet attrs, int defStyle) {
-        // TODO Auto-generated method stub
         super(context, attrs, defStyle);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // TODO Auto-generated method stub
         /**
          * 返回给父控件需要的空间 根据提供的大小值和模式创建一个测量值(格式)
          */
-        int expandSpec = MeasureSpec.makeMeasureSpec(1000 ,
+        int expandSpec = MeasureSpec.makeMeasureSpec(1000,
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }

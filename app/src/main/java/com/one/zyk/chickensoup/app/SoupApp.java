@@ -2,8 +2,13 @@ package com.one.zyk.chickensoup.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+
 import com.one.zyk.chickensoup.http.PublicParamInterceptor;
 import com.one.zyk.chickensoup.http.Urls;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -29,7 +34,7 @@ public class SoupApp extends Application {
         super.onCreate();
         context = this;
         initNetConfig();
-
+        initPush();
     }
 
     private void initNetConfig() {
@@ -53,5 +58,24 @@ public class SoupApp extends Application {
                 //返回对象转换器
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
+    }
+
+    private void initPush() {
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+                Log.e("YM", deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e("YM", "注册推送失败");
+
+            }
+        });
     }
 }

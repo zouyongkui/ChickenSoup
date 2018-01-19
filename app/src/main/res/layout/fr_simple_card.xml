@@ -3,7 +3,6 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/card_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,19 +12,4 @@
         android:drawableBottom="@mipmap/working"
         android:text="正在施工..."
         android:textSize="18sp" />
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/community_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tv_comment">
-
-        <ListView
-            android:id="@+id/community_comments"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"/>
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
-
-
-
 </RelativeLayout>

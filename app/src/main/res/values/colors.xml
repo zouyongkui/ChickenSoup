@@ -5,10 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorStatusBar">#6D8FB0</color>
     <color name="main_color_yellow">#fff031</color>
-    <color name="main_color_yellow_pressed">#f4cd45</color>
     <color name="main_color_red">#f56ba8</color>
     <color name="main_color_blue">#24e8db</color>
-    <color name="main_color_gray">#ccc</color>
+    <color name="main_color_gray">#9F9F9F</color>
     <color name="main_color_white">#ffffff</color>
     <color name="main_color_black">#000000</color>
     <color name="main_color_tran">#00000000</color>
@@ -22,7 +21,8 @@
     <color name="main_color_e7">#e7e7e7</color>
     <color name="main_color_d2">#d2d2d2</color>
     <color name="main_color_93">#93939d</color>
-    <color name="main_color_sign_bg">#fdd300</color>
+    <color name="main_color_yellow_pressed">#fdd300</color>
     <color name="main_color_darkblue">#67bafc</color>
     <color name="main_color_gray_80">#E62b2c42</color>
-    <color name="main_color_gray_50">#802b2c42</color></resources>
+    <color name="main_color_gray_50">#802b2c42</color>
+</resources>

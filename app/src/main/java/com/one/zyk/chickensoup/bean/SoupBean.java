@@ -18,8 +18,17 @@ public class SoupBean {
 
     private String soup;
     private String soupid;
+    private String picurl;
     private int code;
     private List<DataBean> data;
+
+    public String getPic() {
+        return picurl;
+    }
+
+    public void setPic(String pic) {
+        this.picurl = pic;
+    }
 
     public String getSoup() {
         return soup;

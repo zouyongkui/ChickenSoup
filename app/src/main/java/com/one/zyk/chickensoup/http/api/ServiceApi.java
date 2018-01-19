@@ -1,5 +1,7 @@
 package com.one.zyk.chickensoup.http.api;
 
+import java.io.File;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -11,7 +13,7 @@ public interface ServiceApi {
     //更新鸡汤
     @FormUrlEncoded
     @POST("soup/api2/updatesoup")
-    Observable<String> updateSoup(@Field("content") String content);
+    Observable<String> updateSoup(@Field("content") String content, @Field("pic") File file);
 
     //获取鸡汤
     @GET("soup/api2/getsoup")
@@ -41,5 +43,5 @@ public interface ServiceApi {
     Observable<String> delComment(@Query("commentid") String commentId);
 
     @GET("soup/api2/getUserId")
-    Observable<String> getUserId(@Query("phoneNum") String phoneNum,@Query("deviceid") String deviceId, @Query("brandname") String brandName);
+    Observable<String> getUserId(@Query("phoneNum") String phoneNum, @Query("deviceid") String deviceId, @Query("brandname") String brandName);
 }

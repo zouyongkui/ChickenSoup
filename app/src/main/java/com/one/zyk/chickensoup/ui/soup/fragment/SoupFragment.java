@@ -3,22 +3,27 @@ package com.one.zyk.chickensoup.ui.soup.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.one.zyk.chickensoup.R;
 import com.one.zyk.chickensoup.base.BaseFragment;
-import com.one.zyk.chickensoup.ui.soup.adapter.CommentsAdapter;
+import com.one.zyk.chickensoup.http.Urls;
 import com.one.zyk.chickensoup.ui.soup.activity.PostCommentActivity;
 import com.one.zyk.chickensoup.bean.CommentBean;
 import com.one.zyk.chickensoup.bean.SoupBean;
 import com.one.zyk.chickensoup.bean.VisitCountBean;
 import com.one.zyk.chickensoup.http.Subscribe;
 import com.one.zyk.chickensoup.http.request.ServiceRequest;
+import com.one.zyk.chickensoup.ui.soup.adapter.CommentsRvAdapter;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,21 +35,19 @@ import butterknife.OnClick;
 
 public class SoupFragment extends BaseFragment {
 
-    @BindView(R.id.tv_soup)
-    TextView tv_soup;
-    @BindView(R.id.srl)
-    SwipeRefreshLayout srl;
     @BindView(R.id.mlv_comments)
-    ListView mlv;
+    RecyclerView mlv;
     @BindView(R.id.tv_visit)
     TextView tv_visit;
-    @BindView(R.id.tv_comment)
-    TextView tv_comment;
     @BindView(R.id.fb_post_comment)
     FloatingActionButton fb_post_comment;
+    @BindView(R.id.view_toolbar)
+    Toolbar viewToolbar;
+    @BindView(R.id.clp_toolbar)
+    CollapsingToolbarLayout clpToolbar;
     private List<CommentBean.DataBean> dataBeanList;
     private String soupId = "";
-    private CommentsAdapter mCommentsAdapter;
+    private CommentsRvAdapter mRvAdapter;
 
     public static SoupFragment getInstance(String title) {
         SoupFragment sf = new SoupFragment();
@@ -65,20 +68,19 @@ public class SoupFragment extends BaseFragment {
     }
 
     protected void initView() {
-        srl.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light, android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
-        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initSoupInfo();
-            }
-        });
+
+//        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                initSoupInfo();
+//            }
+//        });
         ServiceRequest.getVisitCount(this);
         ServiceRequest.getSoup(this, "", "");
         dataBeanList = new ArrayList<>();
-        mCommentsAdapter = new CommentsAdapter(dataBeanList, getActivity());
-        mlv.setAdapter(mCommentsAdapter);
+        mRvAdapter = new CommentsRvAdapter(dataBeanList, getActivity());
+        mlv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mlv.setAdapter(mRvAdapter);
     }
 
     private void initSoupInfo() {
@@ -96,8 +98,7 @@ public class SoupFragment extends BaseFragment {
     public void getSoup(SoupBean bean) {
         if (bean != null) {
             soupId = bean.getSoupid();
-            tv_soup.setText("       " + bean.getSoup());
-            srl.setRefreshing(false);
+            clpToolbar.setTitle(bean.getSoup());
             dataBeanList.clear();
             for (SoupBean.DataBean d : bean.getData()) {
                 CommentBean.DataBean data = new CommentBean.DataBean();
@@ -108,28 +109,21 @@ public class SoupFragment extends BaseFragment {
                 data.setUserid(d.getUserid());
                 dataBeanList.add(data);
             }
-            if (dataBeanList == null || dataBeanList.size() == 0) {
-                tv_comment.setText("还没有评论哦，快来抢占沙发吧！");
-            } else {
-                tv_comment.setText("--网友评论--");
-            }
             Collections.reverse(dataBeanList); // 倒序排列
-            mCommentsAdapter.setDataBeanList(dataBeanList);
+            String picUrl = Urls.BASEPICURL + bean.getPic();
+            Log.e("pic", picUrl);
+//            Glide.with(getActivity()).load(picUrl).into(iv_pic);
+            mRvAdapter.setDataBeanList(dataBeanList);
         }
 
     }
 
     @Subscribe
     public void updateComment(CommentBean bean) {
-        srl.setRefreshing(false);
+//        srl.setRefreshing(false);
         dataBeanList = bean.getData();
-        if (dataBeanList == null || dataBeanList.size() == 0) {
-            tv_comment.setText("还没有评论哦，快来抢占沙发吧！");
-        } else {
-            tv_comment.setText("--网友评论--");
-        }
         Collections.reverse(dataBeanList); // 倒序排列
-        mCommentsAdapter.setDataBeanList(dataBeanList);
+        mRvAdapter.setDataBeanList(dataBeanList);
     }
 
     @Subscribe

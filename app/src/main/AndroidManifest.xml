@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.SoupApp"
@@ -14,21 +16,37 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.soup.activity.test" />
         <activity android:name=".ui.soup.activity.WebActivity" />
-        <activity android:name=".ui.soup.activity.SplashActivity">
+        <activity android:name=".ui.soup.activity.SplashActivity" />
+        <activity android:name=".ui.management.ManagementActivity" />
+        <activity android:name=".ui.management.CommentManagementActivity" />
+        <activity android:name=".ui.soup.activity.TabActivity" />
+        <activity
+            android:name=".ui.soup.activity.SplashTestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_Umeng_Push_Splash">
+        </activity>
+        <activity
+            android:name=".ui.soup.activity.PostCommentActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a4b01f08f4a9d278300008a" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="090dcc094b37bb4a7ae65a333c51cfc8" />
+
+        <activity android:name=".ui.soup.activity.ReleaseSoupActivity" />
+        <activity android:name=".ui.soup.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.management.ManagementActivity" />
-        <activity android:name=".ui.management.CommentManagementActivity" />
-        <activity android:name=".ui.soup.activity.TabActivity">
-
-        </activity>
-        <activity
-            android:name=".ui.soup.activity.PostCommentActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

@@ -33,10 +33,6 @@ public class CommunityFragment extends Fragment {
         TextView card_title_tv = (TextView) v.findViewById(R.id.card_title_tv);
         card_title_tv.setText("正在施工...");
 
-
-        TwinklingRefreshLayout community_refresh= (TwinklingRefreshLayout) v.findViewById(R.id.community_refresh);
-        ListView community_comments= (ListView) v.findViewById(R.id.community_comments);
-
         return v;
     }
 }
