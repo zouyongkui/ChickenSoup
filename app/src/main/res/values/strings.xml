@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">菠萝</string>
+    <string name="expand_string">查看全文</string>
+    <string name="collapsed_string">折叠</string>
+    <string name="no_comment">还没有评论哦，快来抢占沙发吧！</string>
+    <string name="soup_example">走在生命的两岸，随时播种，随时收获。</string>
 
 </resources>

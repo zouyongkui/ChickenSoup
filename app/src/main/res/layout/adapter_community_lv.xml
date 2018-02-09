@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
+
         <TextView
-            android:id="@+id/community_lv_title"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="这里是标题"
-            android:textColor="@color/colorStatusBar"
-            android:lines="1"
             android:ellipsize="end"
-            android:textSize="12sp"/>
+            android:lines="1"
+            android:text="我是标题"
+            android:textColor="@color/colorStatusBar"
+            android:textSize="12sp" />
+
         <TextView
-            android:id="@+id/community_lv_preview"
+            android:id="@+id/etv_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="这里是鸡汤预览"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="你是风儿我是沙"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/community_lv_browseTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="浏览次数：40"
-            android:textSize="10sp"
-            android:gravity="end"/>
+            android:textSize="10sp" />
+
         <TextView
             android:id="@+id/community_lv_commentTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="评论次数：66"
-            android:textSize="10sp"
-            android:gravity="end"/>
+            android:textSize="10sp" />
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/main_color_yellow_pressed" />
 </LinearLayout>

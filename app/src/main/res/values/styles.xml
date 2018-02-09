@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/main_color_yellow_pressed</item>
-        <item name="colorPrimaryDark">@color/main_color_yellow</item>
+        <item name="colorPrimary">@color/main_color_yellow</item>
+        <item name="colorPrimaryDark">@color/main_color_black</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -29,8 +29,16 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    //宽高比
+    <style name="MainRadioButtonStyle">
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/selector_color_rb</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+    <!--宽高比-->
     <declare-styleable name="RadioImageView">
-        <attr name="radio" format="float"></attr>
+        <attr name="radio" format="float" />
     </declare-styleable>
 </resources>

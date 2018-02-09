@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.one.zyk.soup.weight.ExpandableTextView
         android:id="@+id/tv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="还没有评论哦，快来抢占沙发吧！"
-        android:textSize="16sp" />
+        android:text="@string/no_comment"
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        app:DrawableAndTextGravity="left"
+        app:expandCollapseTextColor="@color/main_color_gray"
+        app:maxCollapsedLines="2" />
 
     <TextView
         android:layout_width="match_parent"

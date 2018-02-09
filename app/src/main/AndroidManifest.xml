@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.one.zyk.chickensoup">
+    package="com.one.zyk.soup">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".app.SoupApp"
@@ -16,18 +14,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.soup.activity.test" />
-        <activity android:name=".ui.soup.activity.WebActivity" />
-        <activity android:name=".ui.soup.activity.SplashActivity" />
-        <activity android:name=".ui.management.ManagementActivity" />
-        <activity android:name=".ui.management.CommentManagementActivity" />
-        <activity android:name=".ui.soup.activity.TabActivity" />
+        <activity android:name=".ui.blo.activity.test" />
+        <activity android:name=".ui.blo.activity.WebActivity" />
+        <activity android:name=".ui.blo.activity.SplashActivity" />
+        <activity android:name=".ui.manage.ManagementActivity" />
+        <activity android:name=".ui.manage.CommentManagementActivity" />
+        <activity android:name=".ui.blo.activity.TabActivity" />
         <activity
-            android:name=".ui.soup.activity.SplashTestActivity"
+            android:name=".ui.blo.activity.SplashTestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme_Umeng_Push_Splash"></activity>
+            android:theme="@style/Theme_Umeng_Push_Splash" />
         <activity
-            android:name=".ui.soup.activity.PostCommentActivity"
+            android:name=".ui.blo.activity.PostCommentActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <meta-data
@@ -40,14 +38,16 @@
             android:name="UMENG_MESSAGE_SECRET"
             android:value="090dcc094b37bb4a7ae65a333c51cfc8" />
 
-        <activity android:name=".ui.soup.activity.ReleaseSoupActivity" />
-        <activity android:name=".ui.soup.activity.MainActivity">
+        <activity android:name=".ui.blo.activity.ReleaseSoupActivity" />
+        <activity android:name=".ui.blo.activity.MainActivity"></activity>
+        <activity android:name=".ui.blo.activity.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.flow.activity.FloorActivity"></activity>
     </application>
 
 </manifest>

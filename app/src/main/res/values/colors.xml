@@ -22,7 +22,7 @@
     <color name="main_color_d2">#d2d2d2</color>
     <color name="main_color_93">#93939d</color>
     <color name="main_color_yellow_pressed">#fdd300</color>
-    <color name="main_color_darkblue">#67bafc</color>
+    <color name="main_color_darkBlue">#67bafc</color>
     <color name="main_color_gray_80">#E62b2c42</color>
     <color name="main_color_gray_50">#802b2c42</color>
 </resources>
