@@ -31,7 +31,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.4.0'
     compile 'com.android.support:recyclerview-v7:25.4.0'
     implementation 'com.android.support:design:25.4.0'
-
     //友盟推送
     compile project(':PushSDK')
     //网络请求
@@ -62,4 +61,11 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.8.0'
     //知乎图片选择器
     compile 'com.zhihu.android:matisse:0.4.3'
+    compile 'pub.devrel:easypermissions:0.4.0'
+
+    //极光开源聊天界面
+    implementation project(':chatinput')
+    implementation project(':messagelist')
+    //环信
+    compile 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
 }

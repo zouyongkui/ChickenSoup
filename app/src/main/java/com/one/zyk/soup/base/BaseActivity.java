@@ -12,7 +12,9 @@ import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.http.Handle;
 import com.one.zyk.soup.app.SoupApp;
 import com.one.zyk.soup.http.Subscribe;
+import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
+import com.one.zyk.soup.utils.ScreenUtils;
 import com.umeng.message.PushAgent;
 
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Handle {
     protected Toolbar toolbar;
     protected String TAG;
     protected SPUtils mUserSp;
+    protected int mScreenWidth;
+    protected int mScreenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Handle {
         TAG = this.getClass().getName();
         mUserSp = SPUtils.getInstance(Constant.db_user);
         //设置状态栏 颜色和透明度，，兼容4.4手机
-        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.main_color_black));
+//        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.main_color_black));
         PushAgent.getInstance(this).onAppStart();
+        mScreenHeight = ScreenUtils.getScreenHeight();
+        mScreenWidth = ScreenUtils.getScreenWidth();
+        LogUtils.d(mScreenHeight, mScreenWidth);
 
     }
 

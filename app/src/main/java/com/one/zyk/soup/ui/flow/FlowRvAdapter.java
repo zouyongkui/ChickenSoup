@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.bean.CommunityBean;
+import com.one.zyk.soup.utils.DateUtil;
 import com.one.zyk.soup.weight.ExpandableTextView;
 
 import java.util.List;
@@ -47,6 +48,9 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder) holder).etv_preview.setText(mList.get(position).getContent());
         ((ViewHolder) holder).tv_title.setText(mList.get(position).getTitle());
+        ((ViewHolder) holder).tv_time.setText(DateUtil.formatDateASYYYYMMDDHHMM(DateUtil.getDate(mList.get(position).getReplytime())));
+        ((ViewHolder) holder).tv_comment.setText(mList.get(position).getFloorsCount());
+        ((ViewHolder) holder).tv_visit.setText(mList.get(position).getVisitcount());
     }
 
     @Override
@@ -59,6 +63,12 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView etv_preview;
         @BindView(R.id.tv_title)
         TextView tv_title;
+        @BindView(R.id.tv_time)
+        TextView tv_time;
+        @BindView(R.id.tv_comment)
+        TextView tv_comment;
+        @BindView(R.id.tv_visit)
+        TextView tv_visit;
 
         public ViewHolder(View itemView) {
             super(itemView);

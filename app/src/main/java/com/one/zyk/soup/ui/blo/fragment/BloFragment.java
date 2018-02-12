@@ -24,8 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.Constant;
+import com.one.zyk.soup.app.FloatBtnStatus;
 import com.one.zyk.soup.base.BaseFragment;
 import com.one.zyk.soup.bean.CommentBean;
 import com.one.zyk.soup.bean.SoupBean;
@@ -35,7 +39,9 @@ import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.blo.activity.PostCommentActivity;
 import com.one.zyk.soup.ui.blo.adapter.CommentsRvAdapter;
 import com.one.zyk.soup.utils.DateUtil;
+import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
+import com.one.zyk.soup.utils.ScreenUtils;
 import com.one.zyk.soup.utils.SizeUtils;
 
 import java.util.ArrayList;
@@ -56,8 +62,8 @@ import butterknife.ButterKnife;
  */
 public class BloFragment extends BaseFragment {
     private CommentsRvAdapter mRvAdapter;
-    @BindView(R.id.mlv_comments)
-    RecyclerView mlv;
+    @BindView(R.id.rv_discuss)
+    RecyclerView rv_discuss;
     @BindView(R.id.iv_detail)
     ImageView iv_detail;
     @BindView(R.id.tv_copyRight)
@@ -82,13 +88,9 @@ public class BloFragment extends BaseFragment {
     private String mYearAndMonth = DateUtil.formatDateASYYYYMMM(date);
     private FloatingActionButton mFloBtn;
 
-    private boolean mIsVisible = false;
+    FloatBtnStatus mStatus = FloatBtnStatus.TOP;
+    private boolean isSlidingToLast = false;
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        mIsVisible = isVisibleToUser;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,8 +102,6 @@ public class BloFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blo, null);
         ButterKnife.bind(this, view);
-        mRadioGroup = (RadioGroup) getActivity().findViewById(R.id.main_rg);
-        mFloBtn = (FloatingActionButton) getActivity().findViewById(R.id.fb_post);
         return view;
     }
 
@@ -115,34 +115,60 @@ public class BloFragment extends BaseFragment {
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                int height = iv_detail.getHeight();
                 if (verticalOffset >= -25) {
                     swipe_refresh.setEnabled(true);
-                    if (!isBottomShow) {    //出现
-                        isBottomShow = true;
-                        mRadioGroup.animate().translationY(0);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mFloBtn.animate().translationY(0);
-                            }
-                        }, 100);
-                    }
                 } else {
                     swipe_refresh.setEnabled(false);
-                    if (isBottomShow && verticalOffset <= -height + 25) {  //隐藏
+                }
+            }
+        });
+
+        mFloBtn = (FloatingActionButton) getActivity().findViewById(R.id.fb_post);
+        mRadioGroup = (RadioGroup) getActivity().findViewById(R.id.main_rg);
+        rv_discuss.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager manager = (LinearLayoutManager) rv_discuss.getLayoutManager();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && manager != null) {
+                    int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+                    // 判断是否滚动到底部
+                    if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
+                        mFloBtn.animate().translationY(mFloBtn.getHeight() + SizeUtils.dp2px(5) + mRadioGroup.getHeight());//完全隐藏
+                        mStatus = FloatBtnStatus.HIDE;
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy >= 1) {
+                    isSlidingToLast = true;
+                    if (isBottomShow) {
                         isBottomShow = false;
                         mRadioGroup.animate().translationY(mRadioGroup.getHeight());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mFloBtn.animate().translationY(mRadioGroup.getHeight() + mFloBtn.getHeight() + SizeUtils.dp2px(5));
-                            }
-                        }, 100);
+                        mFloBtn.animate().translationY(mRadioGroup.getHeight());//降半旗
+                        mStatus = FloatBtnStatus.MIDDLE;
+                    }
+                } else if (dy <= -1) {
+                    isSlidingToLast = false;
+                    if (!isBottomShow) {
+                        isBottomShow = true;
+                        mRadioGroup.animate().translationY(0);
+                        mFloBtn.animate().translationY(-mRadioGroup.getHeight());//升半旗
+                        mStatus = FloatBtnStatus.MIDDLE;
+                    } else {
+                        if (mStatus == FloatBtnStatus.MIDDLE) {
+                            mFloBtn.animate().translationY(0);
+                            mStatus = FloatBtnStatus.TOP;
+                        }
                     }
                 }
             }
         });
+
 
         swipe_refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light
                 , android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -156,8 +182,8 @@ public class BloFragment extends BaseFragment {
 
         dataBeanList = new ArrayList<>();
         mRvAdapter = new CommentsRvAdapter(dataBeanList, getActivity());
-        mlv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mlv.setAdapter(mRvAdapter);
+        rv_discuss.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_discuss.setAdapter(mRvAdapter);
         tv_day.setText(mDate_day);
         tv_yearAndMonth.setText(mYearAndMonth);
         tv_temperature.setText("银河/核心区  " + getTemperature());
@@ -186,11 +212,17 @@ public class BloFragment extends BaseFragment {
             }
             Collections.reverse(dataBeanList); // 倒序排列
             String picUrl = Urls.BASEPICURL + bean.getPic();
-            Log.e("pic", picUrl);
             Glide.with(this)
                     .load(picUrl)
                     .placeholder(R.mipmap.yijing)
-                    .into(iv_detail);
+                    .override(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenWidth())
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            iv_detail.setAdjustViewBounds(true);
+                            iv_detail.setImageDrawable(resource);
+                        }
+                    });
             mRvAdapter.setDataBeanList(dataBeanList);
         }
     }

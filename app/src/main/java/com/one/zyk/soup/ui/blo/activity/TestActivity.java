@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.ui.blo.fragment.BloFragment;
-import com.one.zyk.soup.ui.blo.fragment.FlowFragment;
+import com.one.zyk.soup.ui.flow.FlowFragment;
 import com.one.zyk.soup.ui.blo.fragment.SelfFragment;
 
 import butterknife.BindView;

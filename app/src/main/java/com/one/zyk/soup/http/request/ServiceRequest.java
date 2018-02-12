@@ -6,6 +6,7 @@ import com.one.zyk.soup.http.Handle;
 import com.one.zyk.soup.http.JsonConverter;
 import com.one.zyk.soup.http.NetError;
 import com.one.zyk.soup.http.api.ServiceApi;
+import com.one.zyk.soup.utils.LogUtils;
 
 import java.io.File;
 
@@ -48,7 +49,7 @@ public class ServiceRequest {
     //
     //                    @Override
     //                    public void onNext(String o) {
-    //                        Log.e("v---", o + "  ss");
+    //                        LogUtils.d("v---", o + "  ss");
     //                        handle.handleObject("");
     //                    }
     //                });
@@ -71,7 +72,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        Log.e("v---", str + "  ss");
+                        LogUtils.d(str + "  ss");
                         handle.handleObject(JsonConverter.communityBean(str));
                     }
                 });
@@ -94,7 +95,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        Log.e("v---", str + "  ss");
+                        LogUtils.d(str + "  ss");
                     }
                 });
     }
@@ -116,7 +117,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        Log.e("v---", str + "  ss");
+                        LogUtils.d(str + "  ss");
                         handle.handleObject(JsonConverter.soupBean(str));
                     }
                 });
@@ -139,7 +140,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        Log.e("v---", str + "  ss");
+                        LogUtils.d(str + "  ss");
                         handle.handleObject(JsonConverter.soupManageBean(str));
                     }
                 });
@@ -162,7 +163,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        Log.e("v---", str + "  ss");
+                        LogUtils.d(str + "  ss");
                         handle.handleObject(str);
                     }
                 });
@@ -179,7 +180,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("json", e.getMessage());
+                        LogUtils.d("json", e.getMessage());
 
                         NetError netError = new NetError(e.getMessage(), 500);
                         handle.handleObject(netError);
@@ -187,7 +188,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String json) {
-                        Log.e("json", json);
+                        LogUtils.d("json", json);
                         handle.handleObject(JsonConverter.commentBean(json));
                     }
                 });

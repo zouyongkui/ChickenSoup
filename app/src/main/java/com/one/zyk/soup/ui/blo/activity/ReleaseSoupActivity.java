@@ -11,17 +11,25 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.utils.FileUtil;
+import com.one.zyk.soup.utils.LogUtils;
+import com.one.zyk.soup.utils.ScreenUtils;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
@@ -29,23 +37,18 @@ public class ReleaseSoupActivity extends BaseActivity {
     private String mContent;//所要发表的内容
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
-    private ImageView iv_add;
+    @BindView(R.id.iv_add)
+    ImageView iv_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_soup);
+        ButterKnife.bind(this);
     }
 
     @Override
     protected void initView() {
-        iv_add = (ImageView) findViewById(R.id.iv_add);
-        iv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPic();
-            }
-        });
     }
 
     @OnTextChanged(R.id.et_content)
@@ -78,30 +81,35 @@ public class ReleaseSoupActivity extends BaseActivity {
         Matisse.from(this)
                 .choose(MimeType.allOf())
                 .countable(true)
-                .maxSelectable(9)
+                .maxSelectable(1)
                 .theme(R.style.Matisse_Zhihu)
 //                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
 //                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.85f)
+                .thumbnailScale(1f)
                 .imageEngine(new GlideEngine())
                 .forResult(REQUEST_CODE_CHOOSE);
     }
 
-    List<Uri> mSelected;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            mSelected = Matisse.obtainResult(data);
-            if (mSelected != null && mSelected.size() > 0) {
-                mFile = new File(FileUtil.getRealFilePath(this, mSelected.get(0)));
+            List<Uri> uris = Matisse.obtainResult(data);
+            if (uris != null && uris.size() > 0) {
+                mFile = new File(FileUtil.getRealFilePath(this, uris.get(0)));
                 Glide.with(this)
                         .load(mFile)
-                        .into(iv_add);
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                iv_add.setImageDrawable(resource);
+                            }
+                        });
+            } else {
+                LogUtils.e("获取图片失败！");
             }
-            Log.e("Matisse", "mSelected: " + mSelected.get(0).getPath());
             Log.e("Matisse", "mFile: " + mFile.getAbsolutePath());
         }
     }

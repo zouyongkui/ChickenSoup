@@ -28,8 +28,7 @@ public class SplashActivity extends BaseActivity {
         //无title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
     }
 
