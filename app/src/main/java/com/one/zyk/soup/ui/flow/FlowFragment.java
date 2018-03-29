@@ -19,10 +19,12 @@ import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.FloatBtnStatus;
 import com.one.zyk.soup.base.BaseFragment;
 import com.one.zyk.soup.bean.CommunityBean;
+import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.blo.activity.PostCommentActivity;
 import com.one.zyk.soup.ui.flow.FlowRvAdapter;
+import com.one.zyk.soup.ui.flow.activity.FloorActivity;
 import com.one.zyk.soup.utils.SizeUtils;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import butterknife.ButterKnife;
  * Company ：北京虹宇科技有限公司
  * Function
  */
-public class FlowFragment extends BaseFragment {
+public class FlowFragment extends BaseFragment implements RvOnItemClickListener {
 
     @BindView(R.id.rv_floor)
     RecyclerView rv_floor;
@@ -81,7 +83,7 @@ public class FlowFragment extends BaseFragment {
 
     private void initCommunity() {
         mList = new ArrayList<>();
-        mAdapter = new FlowRvAdapter(mList, getActivity());
+        mAdapter = new FlowRvAdapter(mList, getActivity(), this);
         rv_floor.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_floor.setAdapter(mAdapter);
         ServiceRequest.getCommunityList(this);
@@ -151,4 +153,10 @@ public class FlowFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onRvItemClick(int position, View view) {
+        Intent intent = new Intent(getActivity(), FloorActivity.class);
+        intent.putExtra("communityId", mList.get(position).getId());
+        startActivity(intent);
+    }
 }

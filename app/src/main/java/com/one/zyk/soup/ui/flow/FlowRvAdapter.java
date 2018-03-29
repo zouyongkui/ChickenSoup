@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.bean.CommunityBean;
+import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.utils.DateUtil;
 import com.one.zyk.soup.weight.ExpandableTextView;
 
@@ -26,11 +28,13 @@ import butterknife.ButterKnife;
 public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<CommunityBean.CommunityListBean> mList;
     private Context mContext;
+    private RvOnItemClickListener mOnItemClickListener;
 
 
-    public FlowRvAdapter(List<CommunityBean.CommunityListBean> list, Context context) {
+    public FlowRvAdapter(List<CommunityBean.CommunityListBean> list, Context context, RvOnItemClickListener listener) {
         mList = list;
         mContext = context;
+        mOnItemClickListener = listener;
     }
 
     public void setList(List<CommunityBean.CommunityListBean> list) {
@@ -45,12 +49,20 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder) holder).etv_preview.setText(mList.get(position).getContent());
         ((ViewHolder) holder).tv_title.setText(mList.get(position).getTitle());
         ((ViewHolder) holder).tv_time.setText(DateUtil.formatDateASYYYYMMDDHHMM(DateUtil.getDate(mList.get(position).getReplytime())));
-        ((ViewHolder) holder).tv_comment.setText(mList.get(position).getFloorsCount());
-        ((ViewHolder) holder).tv_visit.setText(mList.get(position).getVisitcount());
+        ((ViewHolder) holder).tv_comment.setText("评论：" + mList.get(position).getFloorsCount() + "");
+        ((ViewHolder) holder).tv_visit.setText("浏览：" + mList.get(position).getVisitcount() + "");
+        ((ViewHolder) holder).ll_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onRvItemClick(holder.getAdapterPosition(), v);
+            }
+        });
+
+
     }
 
     @Override
@@ -69,6 +81,8 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView tv_comment;
         @BindView(R.id.tv_visit)
         TextView tv_visit;
+        @BindView(R.id.ll_content)
+        LinearLayout ll_content;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -38,8 +38,25 @@ public class SplashActivity extends BaseActivity {
         if (TextUtils.isEmpty(userId)) {
             ServiceRequest.getUserId(this, DeviceUtils.getIMEI(), DeviceUtils.getDeviceBrand() + DeviceUtils.getSystemModel(), DeviceUtils.getNativePhoneNumber());
         } else {
-            Log.e(TAG, userId);
             goMainActivity();
+        }
+    }
+
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+        try {
+            JSONObject jsonObject = new JSONObject((String) t);
+            int code = jsonObject.getInt("code");
+            if (code == 1) {
+                String userId = jsonObject.getString("userId");
+                mUserSp.put(Constant.useId, userId);
+                goMainActivity();
+            } else {
+                String msg = jsonObject.getString("msg");
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

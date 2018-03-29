@@ -6,10 +6,10 @@ import retrofit2.Retrofit;
  * Created by duan .
  */
 
-public interface Handle {
+public interface RetrofitCallBack {
     void loading();
 
     Retrofit retrofit();
 
-    void handleObject(Object o);
+    <T> void handleObject(T t);
 }

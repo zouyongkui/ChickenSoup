@@ -1,8 +1,7 @@
 package com.one.zyk.soup.http.request;
 
-import android.util.Log;
-
-import com.one.zyk.soup.http.Handle;
+import com.one.zyk.soup.bean.FloorBean;
+import com.one.zyk.soup.http.RetrofitCallBack;
 import com.one.zyk.soup.http.JsonConverter;
 import com.one.zyk.soup.http.NetError;
 import com.one.zyk.soup.http.api.ServiceApi;
@@ -18,6 +17,7 @@ import rx.schedulers.Schedulers;
 
 public class ServiceRequest {
     private static ServiceApi serviceApi;
+    private static JsonConverter sJsonConverter = new JsonConverter();
 
     private static ServiceApi getServiceApi(Retrofit retrofit) {
         if (serviceApi == null) {
@@ -32,7 +32,7 @@ public class ServiceRequest {
 
 
     /*
-        public static void versionChecker(final Handle handle, String version, int versionCode) {
+        public static void versionChecker(final RetrofitCallBack handle, String version, int versionCode) {
     //        ServiceApi serviceApi = getServiceApi(handle.retrofit());
     //        serviceApi.versionChecker(version, versionCode).subscribeOn(Schedulers.io())
     //                .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +55,7 @@ public class ServiceRequest {
     //                });
         }
     */
-    public static void getCommunityList(final Handle handle) {
+    public static void getCommunityList(final RetrofitCallBack handle) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getCommunityList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +78,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void updateSoup(final Handle handle, String content, File file) {
+    public static void updateSoup(final RetrofitCallBack handle, String content, File file) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.updateSoup(content, file).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,7 +100,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getSoup(final Handle handle, String deviceId, String deviceName) {
+    public static void getSoup(final RetrofitCallBack handle, String deviceId, String deviceName) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getSoup(deviceId, deviceName).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +123,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getSoupList(final Handle handle) {
+    public static void getSoupList(final RetrofitCallBack handle) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getSoupList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -146,7 +146,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void delCommentList(final Handle handle, String commentId) {
+    public static void delCommentList(final RetrofitCallBack handle, String commentId) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.delComment(commentId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -169,7 +169,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void postComment(final Handle handle, String userId, String soupId, String comment) {
+    public static void postComment(final RetrofitCallBack handle, String userId, String soupId, String comment) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.updateComment(userId, soupId, comment).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -194,7 +194,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getCommentList(final Handle handle, String soupId) {
+    public static void getCommentList(final RetrofitCallBack handle, String soupId) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getCommentList(soupId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -216,7 +216,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getVisitCount(final Handle handle) {
+    public static void getVisitCount(final RetrofitCallBack handle) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getVisitCount().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -238,7 +238,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getUserId(final Handle handle, String deviceId, String deviceName, String phoneNum) {
+    public static void getUserId(final RetrofitCallBack handle, String deviceId, String deviceName, String phoneNum) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getUserId(phoneNum, deviceId, deviceName).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -260,7 +260,7 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getFloors(final Handle handle, String communityId) {
+    public static void getFloors(final RetrofitCallBack handle, String communityId) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getFloors(communityId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -277,7 +277,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String json) {
-                        handle.handleObject(json);
+                        handle.handleObject(sJsonConverter.convert2Bean(FloorBean.class, json));
                     }
                 });
 

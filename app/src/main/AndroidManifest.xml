@@ -75,10 +75,6 @@
         <activity android:name=".ui.blo.activity.ReleaseSoupActivity">
 
         </activity>
-        <activity android:name=".im.activity.MessageListActivity">
-
-
-        </activity>
         <activity android:name=".ui.blo.activity.MainActivity" />
         <activity android:name=".ui.blo.activity.TestActivity">
             <intent-filter>
@@ -90,7 +86,6 @@
         <activity android:name=".ui.flow.activity.FloorActivity">
 
         </activity>
-        <activity android:name=".im.activity.VideoActivity" />
     </application>
 
 </manifest>

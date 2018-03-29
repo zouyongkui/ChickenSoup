@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity {
     private String mDate_day = DateUtil.formatDateASD(date);
     private String mYearAndMonth = DateUtil.formatDateASYYYYMMM(date);
     private boolean isFirstLaunch = true;
+    final String soupBean = SoupBean.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,10 +138,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Subscribe
-    public void getSoup(SoupBean bean) {
-        swipe_refresh.setRefreshing(false);
-        if (bean != null) {
+    @Override
+    protected void onRetrofitCallBack(Object c) {
+        if (c instanceof SoupBean) {
+            swipe_refresh.setRefreshing(false);
+            SoupBean bean = (SoupBean) c;
             soupId = bean.getSoupid();
             dataBeanList.clear();
 //            clp_toolbar.setTitle(bean.getSoup());
@@ -165,6 +167,11 @@ public class MainActivity extends BaseActivity {
                     .into(iv_detail);
             mRvAdapter.setDataBeanList(dataBeanList);
         }
+    }
+
+    @Subscribe
+    public void getSoup(SoupBean bean) {
+
 
     }
 

@@ -1,31 +1,26 @@
 package com.one.zyk.soup.http;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.internal.Primitives;
 import com.one.zyk.soup.bean.CommentBean;
 import com.one.zyk.soup.bean.CommunityBean;
 import com.one.zyk.soup.bean.SoupBean;
 import com.one.zyk.soup.bean.SoupManageBean;
 import com.one.zyk.soup.bean.VisitCountBean;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.lang.reflect.Type;
 
 /**
  * Created by duan .
  */
 
 public class JsonConverter {
-    /**
-     * 直播地址
-     */
-    public static String getLiveUrl(String o) {
-        try {
-            JSONObject jsonObject = new JSONObject(o);
-            return jsonObject.getJSONObject("data").getString("videoUrl");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "";
-        }
+
+    public <T> T convert2Bean(Class<T> classOfT, String json) {
+        Gson gson = new Gson();
+        Object object = gson.fromJson(json, (Type) classOfT);
+        return Primitives.wrap(classOfT).cast(object);
     }
 
     public static SoupBean soupBean(String json) {

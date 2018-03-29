@@ -51,6 +51,11 @@ public class ReleaseSoupActivity extends BaseActivity {
     protected void initView() {
     }
 
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+
+    }
+
     @OnTextChanged(R.id.et_content)
     void queryString(CharSequence charSequence) {
         mContent = charSequence.toString();

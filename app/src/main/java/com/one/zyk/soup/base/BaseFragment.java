@@ -3,7 +3,7 @@ package com.one.zyk.soup.base;
 import android.support.v4.app.Fragment;
 
 import com.one.zyk.soup.app.SoupApp;
-import com.one.zyk.soup.http.Handle;
+import com.one.zyk.soup.http.RetrofitCallBack;
 import com.one.zyk.soup.http.Subscribe;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
  * Created by zyk on 2017/9/30.
  */
 
-public class BaseFragment extends Fragment implements Handle {
+public class BaseFragment extends Fragment implements RetrofitCallBack {
 
 
     @Override

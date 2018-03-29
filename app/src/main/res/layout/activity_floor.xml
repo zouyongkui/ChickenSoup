@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="25dp"
         android:drawableStart="@mipmap/title_back"
-        android:text="帖子详情"
+        android:text="正文"
         android:textColor="@color/main_color_black"
         android:textSize="16sp" />
 
@@ -46,19 +46,11 @@
         android:layout_marginEnd="16dp"
         android:text="2018/02/12" />
 
-    <TextView
-        android:id="@+id/tv_line1"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@id/tv_time"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@color/main_color_gray" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_line1"
+        android:layout_below="@id/tv_time"
         android:padding="16dp" />
 
     <LinearLayout

@@ -82,6 +82,11 @@ public class TabActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

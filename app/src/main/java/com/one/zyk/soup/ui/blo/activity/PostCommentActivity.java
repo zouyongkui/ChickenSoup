@@ -42,6 +42,22 @@ public class PostCommentActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+        switch (t.getClass().getSimpleName()) {
+            case "CommentBean":
+                CommentBean bean = (CommentBean) t;
+                if (bean.getCode() == 1) {
+                    Toast.makeText(this, "评论成功！", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (bean.getCode() == -1) {
+                    et_comment.setText("");
+                    Toast.makeText(this, "小盆友，不要挑事哦，不要出现作者名称哦...", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
     @OnClick({R.id.iv_post, R.id.tv_back})
     void postComment(View v) {
         switch (v.getId()) {

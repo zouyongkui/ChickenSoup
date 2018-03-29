@@ -50,6 +50,11 @@ public class CommentManagementActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+        Toast.makeText(this, (String) t, Toast.LENGTH_SHORT).show();
+    }
+
     private void deleteComment(final String id) {
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(CommentManagementActivity.this);

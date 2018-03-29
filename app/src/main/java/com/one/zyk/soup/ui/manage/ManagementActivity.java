@@ -9,13 +9,16 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.bean.SoupManageBean;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -53,6 +56,12 @@ public class ManagementActivity extends BaseActivity {
             }
         });
         ServiceRequest.getSoupList(ManagementActivity.this);
+    }
+
+    @Override
+    protected <T> void onRetrofitCallBack(T t) {
+        list = ((SoupManageBean) t).getSoupList();
+        adapter.notifyDataSetChanged();
     }
 
     @Subscribe
