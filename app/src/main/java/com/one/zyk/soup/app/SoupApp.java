@@ -40,7 +40,7 @@ public class SoupApp extends Application {
         super.onCreate();
         sSoupApp = this;
         initNetConfig();
-//        initPush();
+        initPush();
 //        initHx();
     }
 
@@ -57,7 +57,7 @@ public class SoupApp extends Application {
         OkHttpClient client = builder.build();
         retrofit = new Retrofit.Builder()
                 //请求地址
-                .baseUrl(Urls.BASEURL)
+                .baseUrl(Urls.BASE_URL)
                 //httpclient
                 .client(client)
                 //请求对象转换器

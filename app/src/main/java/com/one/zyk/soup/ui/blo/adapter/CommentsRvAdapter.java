@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.bean.CommentBean;
+import com.one.zyk.soup.utils.TimeUtils;
 import com.one.zyk.soup.weight.ExpandableTextView;
 
 import java.util.List;
@@ -44,7 +46,8 @@ public class CommentsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).tv_comment.setText(dataBeanList.get(position).getContent());
+        ((ViewHolder) holder).tv_comment.setText((position + 1) + "# " + dataBeanList.get(position).getContent());
+        ((ViewHolder) holder).tv_postTime.setText(TimeUtils.getFriendlyTimeSpanByNow(dataBeanList.get(position).getCreatetime()));
     }
 
     @Override
@@ -56,10 +59,12 @@ public class CommentsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_comment)
         ExpandableTextView tv_comment;
+        @BindView(R.id.tv_postTime)
+        TextView tv_postTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.one.zyk.soup.http.request;
 
+import android.text.TextUtils;
+
 import com.one.zyk.soup.bean.FloorBean;
 import com.one.zyk.soup.http.RetrofitCallBack;
 import com.one.zyk.soup.http.JsonConverter;
@@ -8,7 +10,9 @@ import com.one.zyk.soup.http.api.ServiceApi;
 import com.one.zyk.soup.utils.LogUtils;
 
 import java.io.File;
+import java.util.HashMap;
 
+import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,31 +34,6 @@ public class ServiceRequest {
         return serviceApi;
     }
 
-
-    /*
-        public static void versionChecker(final RetrofitCallBack handle, String version, int versionCode) {
-    //        ServiceApi serviceApi = getServiceApi(handle.retrofit());
-    //        serviceApi.versionChecker(version, versionCode).subscribeOn(Schedulers.io())
-    //                .observeOn(AndroidSchedulers.mainThread())
-    //                .subscribe(new Subscriber<String>() {
-    //                    @Override
-    //                    public void onCompleted() {
-    //                    }
-    //
-    //                    @Override
-    //                    public void onError(Throwable e) {
-    //                        NetError netError = new NetError(e.getMessage(), 500);
-    //                        handle.handleObject(netError);
-    //                    }
-    //
-    //                    @Override
-    //                    public void onNext(String o) {
-    //                        LogUtils.d("v---", o + "  ss");
-    //                        handle.handleObject("");
-    //                    }
-    //                });
-        }
-    */
     public static void getCommunityList(final RetrofitCallBack handle) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getCommunityList().subscribeOn(Schedulers.io())
@@ -95,14 +74,14 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        LogUtils.d(str + "  ss");
+
                     }
                 });
     }
 
     public static void getSoup(final RetrofitCallBack handle, String deviceId, String deviceName) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.getSoup(deviceId, deviceName).subscribeOn(Schedulers.io())
+        serviceApi.getSoup().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -117,7 +96,6 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        LogUtils.d(str + "  ss");
                         handle.handleObject(JsonConverter.soupBean(str));
                     }
                 });
@@ -140,7 +118,6 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        LogUtils.d(str + "  ss");
                         handle.handleObject(JsonConverter.soupManageBean(str));
                     }
                 });
@@ -163,7 +140,6 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String str) {
-                        LogUtils.d(str + "  ss");
                         handle.handleObject(str);
                     }
                 });
@@ -188,8 +164,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String json) {
-                        LogUtils.d("json", json);
-                        handle.handleObject(JsonConverter.commentBean(json));
+                        handle.handleObject(json);
                     }
                 });
     }
@@ -238,7 +213,10 @@ public class ServiceRequest {
                 });
     }
 
-    public static void getUserId(final RetrofitCallBack handle, String deviceId, String deviceName, String phoneNum) {
+    public static void getUserId(final RetrofitCallBack handle, String phoneNum, String deviceId, String deviceName) {
+        if (TextUtils.isEmpty(phoneNum)) {
+            phoneNum = "-----------";
+        }
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
         serviceApi.getUserId(phoneNum, deviceId, deviceName).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -280,7 +258,49 @@ public class ServiceRequest {
                         handle.handleObject(sJsonConverter.convert2Bean(FloorBean.class, json));
                     }
                 });
+    }
 
+    public static void updateFloor(final RetrofitCallBack handle, String communityId, String userId, String content) {
+        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+        serviceApi.updateFloor(content, userId, communityId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        NetError netError = new NetError(e.getMessage(), 500);
+                        handle.handleObject(netError);
+                    }
+
+                    @Override
+                    public void onNext(String json) {
+                        handle.handleObject(json);
+                    }
+                });
+    }
+
+    public static void updateCommunity(final RetrofitCallBack handle, String userId, String title, String content, MultipartBody.Part body) {
+        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+        serviceApi.updateCommunity(userId, content, title).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        NetError netError = new NetError(e.getMessage(), 500);
+                        handle.handleObject(netError);
+                    }
+
+                    @Override
+                    public void onNext(String json) {
+                        handle.handleObject(json);
+                    }
+                });
     }
 }

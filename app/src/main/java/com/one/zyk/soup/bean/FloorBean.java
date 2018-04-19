@@ -10,20 +10,11 @@ import java.util.List;
  */
 public class FloorBean {
 
-
-    /**
-     * msg :
-     * floors : []
-     * code : 1
-     * visitCount : 3
-     * community : {"id":"164495cdbdb1491b9db829b7d4a056d4","createtime":1519383703000,"userid":"21bb5796b12a451a82b4343751d53abd","replytime":1519383703000,"title":"新年除暮气，更上一层楼","istop":0,"isonline":1,"content":"又要上班了，好好的，变得更好，做的更好，成为更好(づ ●─● )づ","visitcount":3,"floorsCount":0}
-     */
-
     private String msg;
     private int code;
     private int visitCount;
-    private Community community;
-    private List<?> floors;
+    private CommunityBean community;
+    private List<FloorsBean> floors;
 
     public String getMsg() {
         return msg;
@@ -49,40 +40,29 @@ public class FloorBean {
         this.visitCount = visitCount;
     }
 
-    public Community getCommunity() {
+    public CommunityBean getCommunity() {
         return community;
     }
 
-    public void setCommunity(Community community) {
+    public void setCommunity(CommunityBean community) {
         this.community = community;
     }
 
-    public List<?> getFloors() {
+    public List<FloorsBean> getFloors() {
         return floors;
     }
 
-    public void setFloors(List<?> floors) {
+    public void setFloors(List<FloorsBean> floors) {
         this.floors = floors;
     }
 
-    public static class Community {
-        /**
-         * id : 164495cdbdb1491b9db829b7d4a056d4
-         * createtime : 1519383703000
-         * userid : 21bb5796b12a451a82b4343751d53abd
-         * replytime : 1519383703000
-         * title : 新年除暮气，更上一层楼
-         * istop : 0
-         * isonline : 1
-         * content : 又要上班了，好好的，变得更好，做的更好，成为更好(づ ●─● )づ
-         * visitcount : 3
-         * floorsCount : 0
-         */
+    public static class CommunityBean {
+
 
         private String id;
-        private long createtime;
+        private String createtime;
         private String userid;
-        private long replytime;
+        private String replytime;
         private String title;
         private int istop;
         private int isonline;
@@ -98,11 +78,11 @@ public class FloorBean {
             this.id = id;
         }
 
-        public long getCreatetime() {
+        public String getCreatetime() {
             return createtime;
         }
 
-        public void setCreatetime(long createtime) {
+        public void setCreatetime(String createtime) {
             this.createtime = createtime;
         }
 
@@ -114,11 +94,11 @@ public class FloorBean {
             this.userid = userid;
         }
 
-        public long getReplytime() {
+        public String getReplytime() {
             return replytime;
         }
 
-        public void setReplytime(long replytime) {
+        public void setReplytime(String replytime) {
             this.replytime = replytime;
         }
 
@@ -168,6 +148,65 @@ public class FloorBean {
 
         public void setFloorsCount(int floorsCount) {
             this.floorsCount = floorsCount;
+        }
+    }
+
+    public static class FloorsBean {
+
+
+        private String id;
+        private String createtime;
+        private String userid;
+        private String flcontent;
+        private int isonline;
+        private String communityid;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getCreatetime() {
+            return createtime;
+        }
+
+        public void setCreatetime(String createtime) {
+            this.createtime = createtime;
+        }
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getFlcontent() {
+            return flcontent;
+        }
+
+        public void setFlcontent(String flcontent) {
+            this.flcontent = flcontent;
+        }
+
+        public int getIsonline() {
+            return isonline;
+        }
+
+        public void setIsonline(int isonline) {
+            this.isonline = isonline;
+        }
+
+        public String getCommunityid() {
+            return communityid;
+        }
+
+        public void setCommunityid(String communityid) {
+            this.communityid = communityid;
         }
     }
 }

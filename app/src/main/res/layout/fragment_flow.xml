@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_floor"
+
+    <ViewFlipper
+        android:id="@+id/vf_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp" />
-</RelativeLayout>
+        android:layout_height="80dp"
+        android:autoStart="false"
+        android:flipInterval="3000"
+        android:inAnimation="@anim/flipper_in_anim"
+        android:measureAllChildren="false"
+        android:outAnimation="@anim/flipper_out_anim" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/main_color_gray" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swp_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_floor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/main_color_white"
+            android:paddingBottom="1dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

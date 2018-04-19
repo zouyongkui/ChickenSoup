@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_post_comment"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_post_comment"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="com.one.zyk.soup.ui.blo.activity.PostCommentActivity">
+
+<TextView
+    android:id="@+id/tv_back"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
+    android:drawableLeft="@mipmap/title_back"
+    android:drawablePadding="25dp"
+    android:text="评论"
+    android:textColor="@color/main_color_black"
+    android:textSize="16sp" />
+
+<ImageView
+    android:id="@+id/iv_post"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:src="@mipmap/reply_gray" />
+
+
+<TextView
+    android:id="@+id/tv_line"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_below="@id/tv_back"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+    android:background="@color/main_color_gray" />
+
+<EditText
+    android:id="@+id/et_comment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.one.zyk.soup.ui.blo.activity.PostCommentActivity">
-
-    <TextView
-        android:id="@+id/tv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:drawableLeft="@mipmap/title_back"
-        android:drawablePadding="25dp"
-        android:text="评论"
-        android:textColor="@color/main_color_black"
-        android:textSize="16sp" />
-
-    <ImageView
-        android:id="@+id/iv_post"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@mipmap/hot_reply_gray" />
-
-
-    <TextView
-        android:id="@+id/tv_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tv_back"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/main_color_gray" />
-
-    <EditText
-        android:id="@+id/et_comment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tv_line"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom"
-        android:hint="输入评论"
-        android:maxEms="256"
-        android:maxLines="4"
-        android:textSize="14sp" />
+    android:layout_below="@id/tv_line"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+    android:gravity="bottom"
+    android:hint="输入评论"
+    android:maxEms="256"
+    android:maxLines="4"
+    android:textSize="14sp" />
 </RelativeLayout>

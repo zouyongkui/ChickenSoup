@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,7 +44,6 @@ public class DeviceUtils {
             String phone = getNativePhoneNumber();
             if (!TextUtils.isEmpty(phone)) {
                 Log.e("deviceId", "phone" + id);
-
                 return phone;
             }
         }
@@ -95,10 +95,11 @@ public class DeviceUtils {
     }
 
     //获取电话号码
+    @SuppressLint("HardwareIds")
     public static String getNativePhoneNumber() {
         String phone = "";
         if (ActivityCompat.checkSelfPermission(SoupApp.getInstance(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            phone = ((TelephonyManager) SoupApp.getInstance().getSystemService(Context.TELEPHONY_SERVICE)).getLine1Number();
+            phone = ((TelephonyManager) Objects.requireNonNull(SoupApp.getInstance().getSystemService(Context.TELEPHONY_SERVICE))).getLine1Number();
         }
         return phone;
     }

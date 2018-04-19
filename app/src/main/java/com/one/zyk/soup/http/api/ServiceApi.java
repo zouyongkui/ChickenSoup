@@ -1,55 +1,68 @@
 package com.one.zyk.soup.http.api;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
-import rx.Completable;
 import rx.Observable;
-import rx.Observer;
 
 public interface ServiceApi {
     //更新鸡汤
     @FormUrlEncoded
-    @POST("soup/api2/updatesoup")
+    @POST("bolo/api/updateSoup")
     Observable<String> updateSoup(@Field("content") String content, @Field("pic") File file);
 
     //获取鸡汤
-    @GET("soup/api2/getsoup")
-    Observable<String> getSoup(@Query("deviceid") String deviceid, @Query("brandname") String brandname);
+    @GET("bolo/api/getSoup")
+    Observable<String> getSoup();
 
     //更新评论
     @FormUrlEncoded
-    @POST("soup/api2/updatecomment")
-    Observable<String> updateComment(@Field("userid") String userid, @Field("soupid") String soupid, @Field("content") String content);
+    @POST("bolo/api/updateComment")
+    Observable<String> updateComment(@Field("userId") String userId, @Field("soupId") String soupId, @Field("content") String content);
 
     //获取评论
-    @GET("soup/api2/getcomment")
-    Observable<String> getcomment(@Query("soupid") String soupid);
+    @GET("bolo/api/getComment")
+    Observable<String> getComment(@Query("soupId") String soupId);
 
     //获取浏览次数
-    @GET("soup/api2/getvisitcount")
+    @GET("bolo/api/getVisitCount")
     Observable<String> getVisitCount();
 
-    @GET("soup/api2/getcomment")
-    Observable<String> getCommentList(@Query("soupid") String soupId);
+    @GET("bolo/api/getComment")
+    Observable<String> getCommentList(@Query("soupId") String soupId);
 
 
-    @GET("soup/api2/getsouplist")
+    @GET("bolo/api/getSoupList")
     Observable<String> getSoupList();
 
-    @GET("soup/api2/delcomment")
-    Observable<String> delComment(@Query("commentid") String commentId);
+    @GET("bolo/api/delComment")
+    Observable<String> delComment(@Query("id") String commentId);
 
-    @GET("soup/api2/getUserId")
-    Observable<String> getUserId(@Query("phoneNum") String phoneNum, @Query("deviceid") String deviceId, @Query("brandname") String brandName);
+    @GET("bolo/api/getUserId")
+    Observable<String> getUserId(@Query("phoneNum") String phoneNum, @Query("deviceId") String deviceId
+            , @Query("brandName") String brandName);
 
-    @GET("soup/community/getCommunityList")
+    @GET("bolo/community/getCommunityList")
     Observable<String> getCommunityList();
 
-    @GET("soup/community/getFloors")
+    @FormUrlEncoded
+    @POST("bolo/community/updateCommunity")
+    Observable<String> updateCommunity(@Field("userId") String userId, @Field("content") String content, @Field("title") String title);
+
+    @GET("bolo/community/getFloors")
     Observable<String> getFloors(@Query("communityId") String communityId);
+
+    @FormUrlEncoded
+    @POST("bolo/community/updateFloor")
+    Observable<String> updateFloor(@Field("content") String content, @Field("userId") String userId, @Field("communityId") String communityId);
 }

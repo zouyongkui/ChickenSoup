@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/ChickenSoup.iml" filepath="$PROJECT_DIR$/ChickenSoup.iml" />
       <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chatinput/chatinput.iml" filepath="$PROJECT_DIR$/chatinput/chatinput.iml" />
-      <module fileurl="file://$PROJECT_DIR$/messagelist/messagelist.iml" filepath="$PROJECT_DIR$/messagelist/messagelist.iml" />
     </modules>
   </component>
 </project>

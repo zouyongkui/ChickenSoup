@@ -57,9 +57,7 @@ public class BaseFragment extends Fragment implements RetrofitCallBack {
             if (c == parameterTypes[0]) {
                 try {
                     method.invoke(this, o);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }

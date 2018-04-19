@@ -43,7 +43,7 @@ public class CommentBean {
 
         private String id;
         private String content;
-        private long createtime;
+        private String createtime;
         private String soupid;
         private String userid;
 
@@ -63,11 +63,11 @@ public class CommentBean {
             this.content = content;
         }
 
-        public long getCreatetime() {
+        public String getCreatetime() {
             return createtime;
         }
 
-        public void setCreatetime(long createtime) {
+        public void setCreatetime(String createtime) {
             this.createtime = createtime;
         }
 

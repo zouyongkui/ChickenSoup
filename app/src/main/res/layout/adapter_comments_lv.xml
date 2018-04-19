@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <com.one.zyk.soup.weight.ExpandableTextView
         android:id="@+id/tv_comment"
         android:layout_width="match_parent"
@@ -16,6 +17,14 @@
         app:DrawableAndTextGravity="left"
         app:expandCollapseTextColor="@color/main_color_gray"
         app:maxCollapsedLines="2" />
+
+    <TextView
+        android:id="@+id/tv_postTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="15dp" />
+
 
     <TextView
         android:layout_width="match_parent"

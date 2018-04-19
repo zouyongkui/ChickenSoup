@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.one.zyk.soup.ui.blo.activity.SplashActivity">
 
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/splash"
-        />
+        android:src="@mipmap/splash" />
 
 </RelativeLayout>

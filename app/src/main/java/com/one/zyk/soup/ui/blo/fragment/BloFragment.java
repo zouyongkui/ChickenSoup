@@ -3,7 +3,6 @@ package com.one.zyk.soup.ui.blo.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -39,7 +38,6 @@ import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.blo.activity.PostCommentActivity;
 import com.one.zyk.soup.ui.blo.adapter.CommentsRvAdapter;
 import com.one.zyk.soup.utils.DateUtil;
-import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
 import com.one.zyk.soup.utils.ScreenUtils;
 import com.one.zyk.soup.utils.SizeUtils;
@@ -175,19 +173,19 @@ public class BloFragment extends BaseFragment {
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ServiceRequest.getVisitCount(BloFragment.this);
                 ServiceRequest.getSoup(BloFragment.this, "", "");
             }
         });
 
         dataBeanList = new ArrayList<>();
         mRvAdapter = new CommentsRvAdapter(dataBeanList, getActivity());
-        rv_discuss.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_discuss.setLayoutManager(layoutManager);
         rv_discuss.setAdapter(mRvAdapter);
         tv_day.setText(mDate_day);
         tv_yearAndMonth.setText(mYearAndMonth);
         tv_temperature.setText("银河/核心区  " + getTemperature());
-        ServiceRequest.getVisitCount(this);
         ServiceRequest.getSoup(this, "", "");
 
     }
@@ -210,11 +208,10 @@ public class BloFragment extends BaseFragment {
                 data.setUserid(d.getUserid());
                 dataBeanList.add(data);
             }
-            Collections.reverse(dataBeanList); // 倒序排列
-            String picUrl = Urls.BASEPICURL + bean.getPic();
+            String picUrl = Urls.PIC_URL + bean.getPicurl();
             Glide.with(this)
                     .load(picUrl)
-                    .placeholder(R.mipmap.yijing)
+                    .placeholder(R.mipmap.bg_default)
                     .override(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenWidth())
                     .into(new SimpleTarget<GlideDrawable>() {
                         @Override

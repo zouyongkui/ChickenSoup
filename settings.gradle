@@ -1,1 +1,1 @@
-include ':app', ':PushSDK', ':chatinput', ':messagelist'
+include ':app', ':PushSDK'

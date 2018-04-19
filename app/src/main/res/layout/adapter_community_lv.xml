@@ -20,7 +20,7 @@
         android:id="@+id/etv_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="4"
         android:text="你是风儿我是沙" />
@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
             android:text="时间"
             android:textSize="12sp" />
 
@@ -43,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/tv_time"
+            android:layout_marginTop="10dp"
             android:text="评论：66"
+
             android:textSize="12sp" />
 
         <TextView
@@ -52,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_time"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
             android:layout_toStartOf="@id/tv_comment"
             android:gravity="end"
             android:text="浏览：40"

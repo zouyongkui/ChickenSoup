@@ -41,4 +41,10 @@
     <declare-styleable name="RadioImageView">
         <attr name="radio" format="float" />
     </declare-styleable>
+
+    <style name="Pop_comment" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    </style>
+
 </resources>

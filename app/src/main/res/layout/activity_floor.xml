@@ -13,63 +13,110 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="25dp"
         android:drawableStart="@mipmap/title_back"
-        android:text="正文"
+        android:text="@string/main_content"
         android:textColor="@color/main_color_black"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_below="@id/tv_back"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/main_color_gray" />
+        android:background="@color/main_color_gray_80" />
 
 
-    <TextView
-        android:id="@+id/tv_content"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swp_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/tv_line"
-        android:padding="16dp"
-        android:text="@string/_2018_1_19_ko" />
+        android:layout_marginBottom="50dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tv_content"
-        android:layout_marginEnd="16dp"
-        android:text="2018/02/12" />
-
-
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_time"
-        android:padding="16dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:background="@color/main_color_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:text="点赞" />
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_color_gray" />
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_postComment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingEnd="20dp"
+            android:paddingStart="5dp"
+            android:src="@mipmap/reply_gray"
             android:text="评论" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_com_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_blue"
+            android:padding="1dp"
+            android:text="14"
+            android:textColor="@color/main_color_white"
+            android:textSize="7sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_postLike"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/iv_postComment"
+            android:paddingEnd="13dp"
+            android:paddingStart="5dp"
+            android:src="@mipmap/post_praise"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_toStartOf="@id/iv_postComment"
+            android:background="@color/colorAccent"
+            android:padding="1dp"
+            android:text="14"
+            android:textColor="@color/main_color_white"
+            android:textSize="7sp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@id/iv_postLike"
+            android:background="@null"
+            android:hint="我来说两句"
+            android:paddingEnd="5dp"
+            android:paddingStart="20dp"
+            android:textSize="14sp" />
+    </RelativeLayout>
 </RelativeLayout>
