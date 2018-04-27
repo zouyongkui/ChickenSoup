@@ -16,7 +16,6 @@ import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
 import com.one.zyk.soup.utils.ScreenUtils;
-import com.umeng.message.PushAgent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,7 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Retrofit
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserSp = SPUtils.getInstance(Constant.db_user);
-        PushAgent.getInstance(this).onAppStart();
         mScreenHeight = ScreenUtils.getScreenHeight();
         mScreenWidth = ScreenUtils.getScreenWidth();
         LogUtils.d(mScreenHeight, mScreenWidth);

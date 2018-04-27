@@ -38,6 +38,7 @@ import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.blo.activity.PostCommentActivity;
 import com.one.zyk.soup.ui.blo.adapter.CommentsRvAdapter;
 import com.one.zyk.soup.utils.DateUtil;
+import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
 import com.one.zyk.soup.utils.ScreenUtils;
 import com.one.zyk.soup.utils.SizeUtils;
@@ -209,6 +210,7 @@ public class BloFragment extends BaseFragment {
                 dataBeanList.add(data);
             }
             String picUrl = Urls.PIC_URL + bean.getPicurl();
+            LogUtils.d(picUrl);
             Glide.with(this)
                     .load(picUrl)
                     .placeholder(R.mipmap.bg_default)
