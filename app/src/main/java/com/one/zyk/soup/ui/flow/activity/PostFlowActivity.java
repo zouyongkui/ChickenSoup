@@ -2,8 +2,11 @@ package com.one.zyk.soup.ui.flow.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,10 +22,15 @@ import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.http.Subscribe;
+import com.one.zyk.soup.http.Urls;
+import com.one.zyk.soup.http.request.HttpRequest;
 import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.utils.FileUtil;
 import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.utils.LogUtils;
+import com.one.zyk.soup.utils.SizeUtils;
+import com.one.zyk.soup.utils.luban.Luban;
+import com.one.zyk.soup.utils.luban.OnCompressListener;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -31,17 +39,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindBitmap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class PostFlowActivity extends BaseActivity {
+public class PostFlowActivity extends BaseActivity implements Callback {
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
 
@@ -68,13 +82,6 @@ public class PostFlowActivity extends BaseActivity {
     void postComment(View v) {
         switch (v.getId()) {
             case R.id.iv_post:
-                MultipartBody.Part body = null;
-                if (mFile != null) {
-                    // 创建 RequestBody，用于封装构建RequestBody
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), mFile);
-                    // MultipartBody.Part  和后端约定好Key，这里的partName是用image
-                    body = MultipartBody.Part.createFormData("pic", mFile.getName(), requestFile);
-                }
                 if (et_title.getText().toString().trim().isEmpty()) {
                     Toast.makeText(this, "请先输入标题哦！", Toast.LENGTH_SHORT).show();
                     return;
@@ -83,20 +90,49 @@ public class PostFlowActivity extends BaseActivity {
                     Toast.makeText(this, "请先输入内容哦！", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (mFile != null) {
+                    Luban.with(this)
+                            .load(mFile)
+                            .ignoreBy(512)
+                            .setCompressListener(new OnCompressListener() {
+                                @Override
+                                public void onStart() {
 
-                ServiceRequest.updateCommunity(this, mUserSp.getString(Constant.useId)
-                        , et_title.getText().toString(), et_content.getText().toString(), body);
-                KeyBoardUtils.closeKeybord(et_content, this);
-                KeyBoardUtils.closeKeybord(et_title, this);
+                                }
+
+                                @Override
+                                public void onSuccess(File file) {
+                                    doPostFlowRequest(et_content.getText().toString(), et_title.getText().toString(), file);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    doPostFlowRequest(et_content.getText().toString(), et_title.getText().toString(), null);
+                                }
+                            }).launch();
+                }
+
                 break;
             case R.id.tv_back:
                 finish();
                 break;
             case R.id.iv_addPic:
-                Toast.makeText(this, "暂时还不可以发图片哦！", Toast.LENGTH_SHORT).show();
-//                selectPic();
+                selectPic();
                 break;
         }
+    }
+
+    private void doPostFlowRequest(String content, String title, File file) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", mUserSp.getString(Constant.useId));
+        map.put("content", content);
+        map.put("title", title);
+        if (file != null) {
+            map.put("pic", file);
+        }
+        HttpRequest.post(map, Urls.UPDATE_COMMUNITY, this);
+        KeyBoardUtils.closeKeybord(et_content, this);
+        KeyBoardUtils.closeKeybord(et_title, this);
     }
 
     @OnTextChanged(R.id.et_title)
@@ -112,7 +148,6 @@ public class PostFlowActivity extends BaseActivity {
 
     @Subscribe
     public void getRefreshStatus(String json) {
-        LogUtils.d("json huo去成功" + json);
         try {
             JSONObject jsonObject = new JSONObject(json);
             int code = jsonObject.getInt("code");
@@ -151,19 +186,44 @@ public class PostFlowActivity extends BaseActivity {
             List<Uri> uris = Matisse.obtainResult(data);
             if (uris != null && uris.size() > 0) {
                 mFile = new File(FileUtil.getRealFilePath(this, uris.get(0)));
-                Glide.with(this)
-                        .load(mFile)
-                        .into(new SimpleTarget<GlideDrawable>() {
-                            @Override
-                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                                iv_addPic.setImageDrawable(resource);
-                            }
-                        });
+                Bitmap bitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
+                iv_addPic.setImageBitmap(bitmap);
             } else {
                 LogUtils.e("获取图片失败！");
             }
-            Log.e("Matisse", "mFile: " + mFile.getAbsolutePath());
         }
 
+    }
+
+    @Override
+    public void onFailure(@NonNull Call call, @NonNull final IOException e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(PostFlowActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        final String jsonStr = response.body().string();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject object = new JSONObject(jsonStr);
+                    if (object.getInt("code") == 0) {
+                        Toast.makeText(PostFlowActivity.this, "发布成功！", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.d(e.getMessage());
+                    Toast.makeText(PostFlowActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

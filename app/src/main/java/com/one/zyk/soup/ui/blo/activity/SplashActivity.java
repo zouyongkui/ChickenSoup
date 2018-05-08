@@ -41,7 +41,9 @@ public class SplashActivity extends BaseActivity {
         String userId = mUserSp.getString(Constant.useId);
         if (TextUtils.isEmpty(userId)) {
             LogUtils.d(PhoneUtils.getPhoneStatus());
-            ServiceRequest.getUserId(this, DeviceUtils.getNativePhoneNumber(), PhoneUtils.getIMEI(), DeviceUtils.getSystemModel());
+            String phone = DeviceUtils.getNativePhoneNumber();
+            mUserSp.put("phone", phone);
+            ServiceRequest.getUserId(this, phone, PhoneUtils.getIMEI(), DeviceUtils.getSystemModel());
         } else {
             LogUtils.d("sss", mUserSp.getString(Constant.useId));
             goMainActivity();

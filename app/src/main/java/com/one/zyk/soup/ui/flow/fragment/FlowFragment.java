@@ -68,10 +68,14 @@ public class FlowFragment extends BaseFragment implements RvOnItemClickListener 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (mViewFlipper != null) {
-            if (isVisible() && isFlipperReady && !mViewFlipper.isFlipping()) {
-                mViewFlipper.startFlipping();
+            if (isVisible()) {
+                if (isFlipperReady && !mViewFlipper.isFlipping()) {
+                    mViewFlipper.startFlipping();
+                }
             } else {
-                mViewFlipper.stopFlipping();
+                if (mViewFlipper.isFlipping()) {
+                    mViewFlipper.stopFlipping();
+                }
             }
         }
     }

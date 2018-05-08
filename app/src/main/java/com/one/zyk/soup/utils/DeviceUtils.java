@@ -101,6 +101,7 @@ public class DeviceUtils {
         if (ActivityCompat.checkSelfPermission(SoupApp.getInstance(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             phone = ((TelephonyManager) Objects.requireNonNull(SoupApp.getInstance().getSystemService(Context.TELEPHONY_SERVICE))).getLine1Number();
         }
+        LogUtils.e("phone", phone);
         return phone;
     }
 

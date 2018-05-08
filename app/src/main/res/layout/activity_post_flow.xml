@@ -40,12 +40,6 @@
         android:layout_marginTop="10dp"
         android:background="@color/main_color_gray" />
 
-    <ImageView
-        android:id="@+id/iv_addPic"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/pic_add" />
 
     <EditText
         android:id="@+id/et_title"
@@ -67,5 +61,19 @@
         android:hint="正文"
         android:maxLines="4"
         android:textSize="14sp" />
+
+
+    <ImageView
+        android:id="@+id/iv_addPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="230dp"
+        android:maxWidth="230dp"
+        android:src="@mipmap/splash" />
+
 </RelativeLayout>
 
