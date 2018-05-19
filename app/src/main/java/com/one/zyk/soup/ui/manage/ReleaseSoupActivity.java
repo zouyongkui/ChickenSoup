@@ -135,11 +135,6 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
             @Override
             public void run() {
                 finish();
-                try {
-                    LogUtils.d(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
     }

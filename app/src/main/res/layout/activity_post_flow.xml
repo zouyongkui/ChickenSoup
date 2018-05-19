@@ -71,8 +71,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:adjustViewBounds="true"
-        android:maxHeight="230dp"
-        android:maxWidth="230dp"
+        android:maxHeight="255dp"
+        android:maxWidth="255dp"
         android:src="@mipmap/splash" />
 
 </RelativeLayout>

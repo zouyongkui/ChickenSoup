@@ -26,9 +26,10 @@ import com.one.zyk.soup.bean.SoupManageBean;
 import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
+import com.one.zyk.soup.ui.flow.activity.PostFlowActivity;
 import com.one.zyk.soup.ui.flow.adapter.FlowRvAdapter;
 import com.one.zyk.soup.ui.flow.activity.FloorActivity;
-import com.one.zyk.soup.ui.flow.activity.PostFlowActivity;
+
 import com.one.zyk.soup.utils.SizeUtils;
 
 import java.util.ArrayList;

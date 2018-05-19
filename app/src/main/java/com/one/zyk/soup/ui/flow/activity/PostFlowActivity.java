@@ -7,30 +7,21 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.Urls;
 import com.one.zyk.soup.http.request.HttpRequest;
-import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.utils.FileUtil;
 import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.utils.LogUtils;
-import com.one.zyk.soup.utils.SizeUtils;
-import com.one.zyk.soup.utils.luban.Luban;
-import com.one.zyk.soup.utils.luban.OnCompressListener;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -43,19 +34,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindBitmap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+
 import okhttp3.Response;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class PostFlowActivity extends BaseActivity implements Callback {
+
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
 
@@ -107,7 +98,6 @@ public class PostFlowActivity extends BaseActivity implements Callback {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    doPostFlowRequest(et_content.getText().toString(), et_title.getText().toString(), null);
                                 }
                             }).launch();
                 }
@@ -170,8 +160,6 @@ public class PostFlowActivity extends BaseActivity implements Callback {
                 .countable(true)
                 .maxSelectable(1)
                 .theme(R.style.Matisse_Zhihu)
-//                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-//                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(1f)
                 .imageEngine(new GlideEngine())
@@ -182,17 +170,18 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> uris = Matisse.obtainResult(data);
-            if (uris != null && uris.size() > 0) {
-                mFile = new File(FileUtil.getRealFilePath(this, uris.get(0)));
-                Bitmap bitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
-                iv_addPic.setImageBitmap(bitmap);
-            } else {
-                LogUtils.e("获取图片失败！");
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CHOOSE:
+                    List<Uri> uris = Matisse.obtainResult(data);
+                    if (uris != null && uris.size() > 0) {
+                        mFile = new File(FileUtil.getRealFilePath(this, uris.get(0)));
+                        Bitmap bitmap = BitmapFactory.decodeFile(mFile.getAbsolutePath());
+                        iv_addPic.setImageBitmap(bitmap);
+                    }
+                    break;
             }
         }
-
     }
 
     @Override
@@ -207,12 +196,12 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     }
 
     @Override
-    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        final String jsonStr = response.body().string();
+    public void onResponse(@NonNull Call call, @NonNull final Response response) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    String jsonStr = response.body().string();
                     JSONObject object = new JSONObject(jsonStr);
                     if (object.getInt("code") == 0) {
                         Toast.makeText(PostFlowActivity.this, "发布成功！", Toast.LENGTH_SHORT).show();

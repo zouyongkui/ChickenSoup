@@ -12,7 +12,7 @@
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="标题"
+        android:text="title"
         android:textColor="@color/colorStatusBar"
         android:textSize="16sp" />
 
@@ -23,19 +23,30 @@
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="4"
-        android:text="你是风儿我是沙" />
+        android:text="content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="255dp"
+            android:maxWidth="255dp"
+            android:src="@mipmap/a" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_below="@id/iv_show"
             android:layout_marginTop="10dp"
-            android:text="时间"
+            android:text="time"
             android:textSize="12sp" />
 
         <TextView
@@ -45,8 +56,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@id/tv_time"
             android:layout_marginTop="10dp"
-            android:text="评论：66"
-
+            android:text="comment：66"
             android:textSize="12sp" />
 
         <TextView
@@ -58,7 +68,7 @@
             android:layout_marginTop="10dp"
             android:layout_toStartOf="@id/tv_comment"
             android:gravity="end"
-            android:text="浏览：40"
+            android:text="visit：40"
             android:textSize="12sp" />
 
 
