@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.one.zyk.soup"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,11 +34,10 @@ dependencies {
     implementation project(':PushSDK')
     //网络请求
     implementation 'com.github.theyy:drawee-volley:0.8.3'
-    implementation 'com.github.bumptech.glide:glide:3.8.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     //响应式编程
@@ -49,8 +48,8 @@ dependencies {
     //上拉刷新框架
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.6'
     //注解开发
-    implementation 'com.jakewharton:butterknife:8.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.2.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //导航栏框架
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     //状态栏工具
@@ -61,12 +60,13 @@ dependencies {
     //知乎图片选择器
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation 'pub.devrel:easypermissions:0.4.0'
-
     implementation 'top.zibin:Luban:1.1.4'
+    implementation 'com.ms-square:expandableTextView:0.1.4'
 
-//    //极光开源聊天界面
-//    implementation project(':chatinput')
-//    implementation project(':messagelist')
-//    //环信
-//    implementation 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
+    //    //极光开源聊天界面
+    //    implementation project(':chatinput')
+    //    implementation project(':messagelist')
+    //    //环信
+    //    implementation 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
+//    implementation project(':matisse')
 }

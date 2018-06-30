@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.one.zyk.soup.ui.blo.fragment.BloFragment;
-import com.one.zyk.soup.ui.flow.fragment.FlowFragment;
+import com.one.zyk.soup.ui.flow.fragment.FlowCircleFragment;
 import com.one.zyk.soup.ui.me.SelfFragment;
 
 import butterknife.BindView;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fb_post;
     private Fragment mNowFragment;//当前展示的fragment
     BloFragment bloFragment;
-    FlowFragment flowFragment;
+    FlowCircleFragment mFlowCircle;
     SelfFragment selfFragment;
 
     @Override
@@ -34,13 +34,10 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
     }
-
     private void initView() {
-
         bloFragment = new BloFragment();
-        flowFragment = new FlowFragment();
+        mFlowCircle = new FlowCircleFragment();
         selfFragment = new SelfFragment();
-
         rg_main.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.rb_flow:
-                        changeFragment(flowFragment);
+                        changeFragment(mFlowCircle);
                         if (fb_post.getVisibility() != View.VISIBLE) {
                             fb_post.setVisibility(View.VISIBLE);
                         }
@@ -66,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         rg_main.check(R.id.rb_blo);
     }
 
@@ -93,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     void transmit() {
         if (bloFragment != null && bloFragment.isVisible()) {
             bloFragment.postComment();
-        } else if (flowFragment != null && flowFragment.isVisible()) {
-            flowFragment.postFloor();
+        } else if (mFlowCircle != null && mFlowCircle.isVisible()) {
+            mFlowCircle.postFloor();
         }
     }
 }

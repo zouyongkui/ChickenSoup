@@ -52,7 +52,7 @@ public interface ServiceApi {
     Observable<String> getUserId(@Query("phoneNum") String phoneNum, @Query("deviceId") String deviceId
             , @Query("brandName") String brandName);
 
-    @GET("bolo/community/getCommunityList")
+    @GET("bolo/community/getFlowCircleList")
     Observable<String> getCommunityList();
 
     @FormUrlEncoded
@@ -65,4 +65,7 @@ public interface ServiceApi {
     @FormUrlEncoded
     @POST("bolo/community/updateFloor")
     Observable<String> updateFloor(@Field("content") String content, @Field("userId") String userId, @Field("communityId") String communityId);
+
+    @GET("bolo/api/boloCircle/getCircleList")
+    Observable<String> getFlowCircleList(@Query("page") int page, @Query("size") int size);
 }

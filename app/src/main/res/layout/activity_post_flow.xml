@@ -11,55 +11,34 @@
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:drawableLeft="@mipmap/title_back"
-        android:drawablePadding="25dp"
-        android:text="发帖"
+        android:drawableStart="@mipmap/title_back"
+        android:padding="16dp"
         android:textColor="@color/main_color_black"
         android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/iv_post"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-
-        android:layout_marginTop="16dp"
-        android:src="@mipmap/reply_gray" />
-
 
     <TextView
-        android:id="@+id/tv_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tv_back"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/main_color_gray" />
-
-
-    <EditText
-        android:id="@+id/et_title"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_post"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_line"
-        android:layout_marginTop="10dp"
-        android:hint="标题"
-        android:maxEms="256"
-        android:maxLines="4"
-        android:textSize="14sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_toStartOf="@id/iv_post"
+        android:padding="16dp"
+        android:text="发表"
+        android:textColor="@color/main_color_black" />
+
 
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_title"
+        android:layout_below="@id/tv_post"
         android:layout_marginTop="10dp"
-        android:hint="正文"
-        android:maxLines="4"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="你在想些什么呢？"
+        android:lines="4"
+        android:padding="16dp"
         android:textSize="14sp" />
 
 
@@ -73,7 +52,8 @@
         android:adjustViewBounds="true"
         android:maxHeight="255dp"
         android:maxWidth="255dp"
-        android:src="@mipmap/splash" />
+        android:src="@mipmap/add_pic" />
+
 
 </RelativeLayout>
 

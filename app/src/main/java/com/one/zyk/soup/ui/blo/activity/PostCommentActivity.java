@@ -1,20 +1,13 @@
 package com.one.zyk.soup.ui.blo.activity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.bean.CommentBean;
@@ -22,29 +15,17 @@ import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.manage.ReleaseSoupActivity;
-import com.one.zyk.soup.utils.FileUtil;
 import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.ui.manage.ManagementActivity;
 import com.one.zyk.soup.utils.LogUtils;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class PostCommentActivity extends BaseActivity {
-
-
-
     @BindView(R.id.iv_post)
     ImageView iv_post;
     @BindView(R.id.et_comment)
@@ -98,7 +79,7 @@ public class PostCommentActivity extends BaseActivity {
                     startActivity(intent);
                     return;
                 }
-                ServiceRequest.postComment(this, mUserSp.getString(Constant.useId), getIntent().getStringExtra("soupId"), et_comment.getText().toString());
+                ServiceRequest.postComment(this, mUserSp.getString(Constant.sp_useId), getIntent().getStringExtra("soupId"), et_comment.getText().toString());
                 KeyBoardUtils.closeKeybord(et_comment, this);
                 iv_post.setEnabled(false);
                 break;
@@ -136,10 +117,5 @@ public class PostCommentActivity extends BaseActivity {
             e.printStackTrace();
             Toast.makeText(this, "未知错误...", Toast.LENGTH_SHORT).show();
         }
-
-
     }
-
-
-
 }

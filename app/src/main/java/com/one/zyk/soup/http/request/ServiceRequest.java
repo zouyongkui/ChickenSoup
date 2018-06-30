@@ -3,6 +3,7 @@ package com.one.zyk.soup.http.request;
 import android.text.TextUtils;
 
 import com.one.zyk.soup.bean.FloorBean;
+import com.one.zyk.soup.bean.FlowCircleBean;
 import com.one.zyk.soup.http.RetrofitCallBack;
 import com.one.zyk.soup.http.JsonConverter;
 import com.one.zyk.soup.http.NetError;
@@ -10,7 +11,6 @@ import com.one.zyk.soup.http.api.ServiceApi;
 import com.one.zyk.soup.utils.LogUtils;
 
 import java.io.File;
-import java.util.HashMap;
 
 import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
@@ -56,6 +56,33 @@ public class ServiceRequest {
                     }
                 });
     }
+
+
+    public static void getFlowCircleList(final RetrofitCallBack handle, int page, int size) {
+        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+        serviceApi.getFlowCircleList(page, size).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        NetError netError = new NetError(e.getMessage(), 500);
+                        handle.handleObject(netError);
+                        LogUtils.d("circle   " + e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onNext(String str) {
+                        LogUtils.d("circle   " + str);
+                        handle.handleObject(JsonConverter.convert2Bean(FlowCircleBean.class, str));
+                    }
+                });
+    }
+
 
     public static void updateSoup(final RetrofitCallBack handle, String content, File file) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());

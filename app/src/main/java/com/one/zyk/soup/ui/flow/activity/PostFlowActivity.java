@@ -37,7 +37,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTextChanged;
 import okhttp3.Call;
 import okhttp3.Callback;
 
@@ -45,17 +44,16 @@ import okhttp3.Response;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
+/**
+ * 风语模块 发布
+ */
 public class PostFlowActivity extends BaseActivity implements Callback {
 
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
 
-    @BindView(R.id.iv_post)
-    ImageView iv_post;
     @BindView(R.id.et_content)
     EditText et_content;
-    @BindView(R.id.et_title)
-    EditText et_title;
     @BindView(R.id.tv_back)
     TextView tv_back;
     @BindView(R.id.iv_addPic)
@@ -69,14 +67,10 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     }
 
 
-    @OnClick({R.id.iv_post, R.id.tv_back, R.id.iv_addPic})
+    @OnClick({R.id.tv_post, R.id.tv_back, R.id.iv_addPic})
     void postComment(View v) {
         switch (v.getId()) {
-            case R.id.iv_post:
-                if (et_title.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(this, "请先输入标题哦！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            case R.id.tv_post:
                 if (et_content.getText().toString().trim().isEmpty()) {
                     Toast.makeText(this, "请先输入内容哦！", Toast.LENGTH_SHORT).show();
                     return;
@@ -88,52 +82,41 @@ public class PostFlowActivity extends BaseActivity implements Callback {
                             .setCompressListener(new OnCompressListener() {
                                 @Override
                                 public void onStart() {
-
+                                    Toast.makeText(PostFlowActivity.this, "正在上传图片哦，请稍后~", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void onSuccess(File file) {
-                                    doPostFlowRequest(et_content.getText().toString(), et_title.getText().toString(), file);
+                                    doPostFlowRequest(et_content.getText().toString(), file);
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
+                                    Toast.makeText(PostFlowActivity.this, "选取图片异常！", Toast.LENGTH_SHORT).show();
                                 }
                             }).launch();
+                } else {
+                    doPostFlowRequest(et_content.getText().toString(), null);
                 }
-
                 break;
             case R.id.tv_back:
                 finish();
                 break;
             case R.id.iv_addPic:
-                selectPic();
+                choicePic();
                 break;
         }
     }
 
-    private void doPostFlowRequest(String content, String title, File file) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("userId", mUserSp.getString(Constant.useId));
-        map.put("content", content);
-        map.put("title", title);
-        if (file != null) {
-            map.put("pic", file);
-        }
-        HttpRequest.post(map, Urls.UPDATE_COMMUNITY, this);
+    private void doPostFlowRequest(String content, File file) {
         KeyBoardUtils.closeKeybord(et_content, this);
-        KeyBoardUtils.closeKeybord(et_title, this);
-    }
-
-    @OnTextChanged(R.id.et_title)
-    void onTextChanged(CharSequence text) {
-        if (!text.toString().equals("")) {
-            iv_post.setImageResource(R.mipmap.reply);
-            iv_post.setEnabled(true);
-        } else {
-            iv_post.setImageResource(R.mipmap.reply_gray);
-            iv_post.setEnabled(false);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("usrId", mUserSp.getString(Constant.sp_useId));
+        map.put("content", content);
+        if (file != null) {
+            map.put("image", file);
         }
+        HttpRequest.post(map, Urls.UPDATE_BOLO_C, this);
     }
 
     @Subscribe
@@ -145,7 +128,6 @@ public class PostFlowActivity extends BaseActivity implements Callback {
                 Toast.makeText(this, "发帖成功！", Toast.LENGTH_SHORT).show();
                 finish();
             } else if (code == -1) {
-                et_title.setText("");
                 Toast.makeText(this, "小盆友，不要挑事哦，不要出现作者名称哦...", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
@@ -154,7 +136,7 @@ public class PostFlowActivity extends BaseActivity implements Callback {
         }
     }
 
-    private void selectPic() {
+    private void choicePic() {
         Matisse.from(this)
                 .choose(MimeType.allOf())
                 .countable(true)
@@ -189,7 +171,7 @@ public class PostFlowActivity extends BaseActivity implements Callback {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(PostFlowActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostFlowActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -202,6 +184,7 @@ public class PostFlowActivity extends BaseActivity implements Callback {
             public void run() {
                 try {
                     String jsonStr = response.body().string();
+                    LogUtils.d("jsonStr" + jsonStr);
                     JSONObject object = new JSONObject(jsonStr);
                     if (object.getInt("code") == 0) {
                         Toast.makeText(PostFlowActivity.this, "发布成功！", Toast.LENGTH_SHORT).show();

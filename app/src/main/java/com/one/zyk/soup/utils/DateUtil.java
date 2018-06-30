@@ -96,6 +96,11 @@ public class DateUtil {
         return dateFormatYYYYMMDDHHMM.format(date);
     }
 
+    public static String formatDateASYYYYMMDDHHMM(long date) {
+
+        return dateFormatYYYYMMDDHHMM.format(date);
+    }
+
     public static Date parseDataASYYYYMMDDHHMMSS(String date) {
 
         if (date == null) {

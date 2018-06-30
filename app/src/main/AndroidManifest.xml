@@ -35,9 +35,9 @@
             android:name="UMENG_MESSAGE_SECRET"
             android:value="090dcc094b37bb4a7ae65a333c51cfc8" />
         <!-- 设置环信应用的AppKey -->
-        <!--<meta-data-->
-            <!--android:name="EASEMOB_APPKEY"-->
-            <!--android:value="1110180210178353#boluo" />-->
+        <!-- <meta-data -->
+        <!-- android:name="EASEMOB_APPKEY" -->
+        <!-- android:value="1110180210178353#boluo" /> -->
         <!-- &lt;!&ndash; 声明SDK所需的service SDK核心功能&ndash;&gt; -->
         <!-- <service -->
         <!-- android:name="com.hyphenate.chat.EMChatService" -->
@@ -75,7 +75,8 @@
             android:name=".ui.blo.activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.flow.activity.PostFlowActivity"></activity>
+        <activity android:name=".ui.flow.activity.PostFlowActivity" />
+        <activity android:name=".ui.me.UserInfoActivity"></activity>
     </application>
 
 </manifest>

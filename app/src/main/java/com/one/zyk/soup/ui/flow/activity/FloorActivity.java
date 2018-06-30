@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -133,7 +130,7 @@ public class FloorActivity extends BaseActivity implements View.OnClickListener 
     private void postComment() {
         swp_refresh.setRefreshing(true);
         String str_comment = et_comment.getText().toString();
-        ServiceRequest.updateFloor(this, mCommunityId, mUserSp.getString(Constant.useId), str_comment);
+        ServiceRequest.updateFloor(this, mCommunityId, mUserSp.getString(Constant.sp_useId), str_comment);
         hideInputMethod(this);
         et_comment.setText("");
     }

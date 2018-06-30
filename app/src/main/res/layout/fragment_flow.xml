@@ -30,8 +30,6 @@
             android:layout_height="match_parent"
             android:background="@color/main_color_white"
             android:paddingBottom="1dp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:paddingTop="1dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 

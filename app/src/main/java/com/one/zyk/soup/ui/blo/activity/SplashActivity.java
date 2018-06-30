@@ -38,14 +38,14 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        String userId = mUserSp.getString(Constant.useId);
+        String userId = mUserSp.getString(Constant.sp_useId);
         if (TextUtils.isEmpty(userId)) {
             LogUtils.d(PhoneUtils.getPhoneStatus());
             String phone = DeviceUtils.getNativePhoneNumber();
             mUserSp.put("phone", phone);
             ServiceRequest.getUserId(this, phone, PhoneUtils.getIMEI(), DeviceUtils.getSystemModel());
         } else {
-            LogUtils.d("sss", mUserSp.getString(Constant.useId));
+            LogUtils.d("sss", mUserSp.getString(Constant.sp_useId));
             goMainActivity();
         }
     }
@@ -57,7 +57,7 @@ public class SplashActivity extends BaseActivity {
             int code = jsonObject.getInt("code");
             if (code == 1) {
                 String userId = jsonObject.getString("userId");
-                mUserSp.put(Constant.useId, userId);
+                mUserSp.put(Constant.sp_useId, userId);
                 goMainActivity();
             } else {
                 String msg = jsonObject.getString("msg");

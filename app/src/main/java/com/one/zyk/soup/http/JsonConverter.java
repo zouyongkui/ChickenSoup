@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 
 public class JsonConverter {
 
-    public <T> T convert2Bean(Class<T> classOfT, String json) {
+    public static <T> T convert2Bean(Class<T> classOfT, String json) {
         Gson gson = new Gson();
         Object object = gson.fromJson(json, (Type) classOfT);
         return Primitives.wrap(classOfT).cast(object);

@@ -89,7 +89,7 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
 
     private void selectPic() {
         Matisse.from(this)
-                .choose(MimeType.allOf())
+                .choose(MimeType.of(MimeType.PNG, MimeType.JPEG))
                 .countable(true)
                 .maxSelectable(1)
                 .theme(R.style.Matisse_Zhihu)

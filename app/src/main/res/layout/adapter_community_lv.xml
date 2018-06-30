@@ -1,38 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="title"
-        android:textColor="@color/colorStatusBar"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/etv_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:text="content" />
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/logo" />
 
     <RelativeLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/iv_head"
+        android:orientation="vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:textColor="@color/Blue"
+            android:textSize="16sp" />
+
+        <com.ms.square.android.expandabletextview.ExpandableTextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/main_color_black">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/main_color_black"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:background="@android:color/transparent"
+                android:padding="16dp" />
+
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
+
 
         <ImageView
             android:id="@+id/iv_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_content"
             android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:maxHeight="255dp"
@@ -43,41 +73,36 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/iv_show"
+            android:layout_marginTop="15dp" />
+
+        <ImageView
+            android:id="@+id/iv_postComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/iv_show"
-            android:layout_marginTop="10dp"
-            android:text="time"
-            android:textSize="12sp" />
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/circle_comment" />
 
-        <TextView
-            android:id="@+id/tv_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/tv_time"
-            android:layout_marginTop="10dp"
-            android:text="comment：66"
-            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_visit"
-            android:layout_width="wrap_content"
+        <com.one.zyk.soup.weight.MyListView
+            android:id="@+id/lv_comments"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_time"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
-            android:layout_toStartOf="@id/tv_comment"
-            android:gravity="end"
-            android:text="visit：40"
-            android:textSize="12sp" />
-
+            android:background="@drawable/ah9"
+            android:scrollbars="none" />
 
     </RelativeLayout>
-
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_below="@id/ll_content"
         android:layout_marginTop="10dp"
         android:background="@color/main_color_gray" />
-</LinearLayout>
+
+</RelativeLayout>
