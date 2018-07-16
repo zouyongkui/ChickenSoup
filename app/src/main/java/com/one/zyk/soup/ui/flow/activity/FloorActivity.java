@@ -130,7 +130,7 @@ public class FloorActivity extends BaseActivity implements View.OnClickListener 
     private void postComment() {
         swp_refresh.setRefreshing(true);
         String str_comment = et_comment.getText().toString();
-        ServiceRequest.updateFloor(this, mCommunityId, mUserSp.getString(Constant.sp_useId), str_comment);
+        ServiceRequest.updateFloor(this, mCommunityId, mUserSp.getString(Constant.sp_usrId), str_comment);
         hideInputMethod(this);
         et_comment.setText("");
     }

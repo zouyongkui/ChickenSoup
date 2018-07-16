@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.base.BaseActivity;
-import com.one.zyk.soup.bean.SoupManageBean;
+import com.one.zyk.soup.bean.SoupListEntity;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
 
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class ManagementActivity extends BaseActivity {
 
-    private List<SoupManageBean.SoupListBean> list;
+    private List<SoupListEntity.DataBean> list;
     private ManagementAdapter adapter;
     @BindView(R.id.lv_soups)
     public ListView lv_soups;
@@ -60,13 +60,13 @@ public class ManagementActivity extends BaseActivity {
 
     @Override
     protected <T> void onRetrofitCallBack(T t) {
-        list = ((SoupManageBean) t).getSoupList();
+        list = ((SoupListEntity) t).getData();
         adapter.notifyDataSetChanged();
     }
 
     @Subscribe
-    public void getSoupList(SoupManageBean bean) {
-        list = bean.getSoupList();
+    public void getSoupList(SoupListEntity bean) {
+        list = bean.getData();
         adapter.notifyDataSetChanged();
     }
 

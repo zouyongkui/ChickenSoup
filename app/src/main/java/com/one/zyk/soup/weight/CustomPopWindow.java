@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 /**
@@ -20,7 +21,7 @@ public class CustomPopWindow {
     private int mWidth;
     private int mHeight;
     private boolean mIsFocusable = true;
-    private boolean mIsOutside = true;
+    private boolean mIsOutside = false;
     private int mResLayoutId = -1;
     private View mContentView;
     private PopupWindow mPopupWindow;
@@ -127,7 +128,7 @@ public class CustomPopWindow {
         if (mWidth != 0 && mHeight != 0) {
             mPopupWindow = new PopupWindow(mContentView, mWidth, mHeight);
         } else {
-            mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         if (mAnimationStyle != -1) {
             mPopupWindow.setAnimationStyle(mAnimationStyle);
@@ -137,7 +138,8 @@ public class CustomPopWindow {
 
         mPopupWindow.setFocusable(mIsFocusable);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mPopupWindow.setOutsideTouchable(mIsOutside);
+        mPopupWindow.setOutsideTouchable(false);
+        mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         if (mWidth == 0 || mHeight == 0) {
             mPopupWindow.getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -160,6 +162,9 @@ public class CustomPopWindow {
         }
     }
 
+    public View getContentView() {
+        return mContentView;
+    }
 
     public static class PopupWindowBuilder {
         private CustomPopWindow mCustomPopWindow;
@@ -186,6 +191,7 @@ public class CustomPopWindow {
             mCustomPopWindow.mContentView = null;
             return this;
         }
+
 
         public PopupWindowBuilder setView(View view) {
             mCustomPopWindow.mContentView = view;

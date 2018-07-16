@@ -10,8 +10,6 @@ import com.one.zyk.soup.http.NetError;
 import com.one.zyk.soup.http.api.ServiceApi;
 import com.one.zyk.soup.utils.LogUtils;
 
-import java.io.File;
-
 import okhttp3.MultipartBody;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -83,32 +81,9 @@ public class ServiceRequest {
                 });
     }
 
-
-    public static void updateSoup(final RetrofitCallBack handle, String content, File file) {
-        ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.updateSoup(content, file).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        NetError netError = new NetError(e.getMessage(), 500);
-                        handle.handleObject(netError);
-                    }
-
-                    @Override
-                    public void onNext(String str) {
-
-                    }
-                });
-    }
-
     public static void getSoup(final RetrofitCallBack handle, String deviceId, String deviceName) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.getSoup().subscribeOn(Schedulers.io())
+        serviceApi.getOneBolo().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -130,7 +105,7 @@ public class ServiceRequest {
 
     public static void getSoupList(final RetrofitCallBack handle) {
         ServiceApi serviceApi = getServiceApi(handle.retrofit());
-        serviceApi.getSoupList().subscribeOn(Schedulers.io())
+        serviceApi.getBoloList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -282,7 +257,7 @@ public class ServiceRequest {
 
                     @Override
                     public void onNext(String json) {
-                        handle.handleObject(sJsonConverter.convert2Bean(FloorBean.class, json));
+                        handle.handleObject(JsonConverter.convert2Bean(FloorBean.class, json));
                     }
                 });
     }
@@ -327,6 +302,28 @@ public class ServiceRequest {
                     @Override
                     public void onNext(String json) {
                         handle.handleObject(json);
+                    }
+                });
+    }
+
+    public static void postCircleComment(final RetrofitCallBack handle, String usrId, String content, String circleId, String replyId) {
+        ServiceApi serviceApi = getServiceApi(handle.retrofit());
+        serviceApi.postCircleComment(usrId, content, circleId, replyId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        handle.handleObject(s);
                     }
                 });
     }

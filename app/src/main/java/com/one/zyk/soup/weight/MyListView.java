@@ -31,8 +31,7 @@ public class MyListView extends ListView {
         /**
          * 返回给父控件需要的空间 根据提供的大小值和模式创建一个测量值(格式)
          */
-        int expandSpec = MeasureSpec.makeMeasureSpec(1000,
-                MeasureSpec.AT_MOST);
+        int expandSpec = MeasureSpec.makeMeasureSpec(1000, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
 }

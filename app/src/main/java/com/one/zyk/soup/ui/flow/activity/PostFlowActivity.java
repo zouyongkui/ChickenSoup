@@ -1,12 +1,12 @@
 package com.one.zyk.soup.ui.flow.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +22,7 @@ import com.one.zyk.soup.http.request.HttpRequest;
 import com.one.zyk.soup.utils.FileUtil;
 import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.utils.LogUtils;
+import com.one.zyk.soup.utils.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -37,20 +38,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
 
-import okhttp3.Response;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 /**
  * 风语模块 发布
  */
-public class PostFlowActivity extends BaseActivity implements Callback {
+public class PostFlowActivity extends BaseActivity implements HttpRequest.MyCallBack {
 
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
+    private ProgressDialog mProgressDialog;
 
     @BindView(R.id.et_content)
     EditText et_content;
@@ -63,6 +62,9 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_flow);
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setTitle("请稍后...");
         ButterKnife.bind(this);
     }
 
@@ -82,7 +84,7 @@ public class PostFlowActivity extends BaseActivity implements Callback {
                             .setCompressListener(new OnCompressListener() {
                                 @Override
                                 public void onStart() {
-                                    Toast.makeText(PostFlowActivity.this, "正在上传图片哦，请稍后~", Toast.LENGTH_SHORT).show();
+                                    mProgressDialog.show();
                                 }
 
                                 @Override
@@ -93,6 +95,7 @@ public class PostFlowActivity extends BaseActivity implements Callback {
                                 @Override
                                 public void onError(Throwable e) {
                                     Toast.makeText(PostFlowActivity.this, "选取图片异常！", Toast.LENGTH_SHORT).show();
+                                    mProgressDialog.dismiss();
                                 }
                             }).launch();
                 } else {
@@ -111,12 +114,12 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     private void doPostFlowRequest(String content, File file) {
         KeyBoardUtils.closeKeybord(et_content, this);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("usrId", mUserSp.getString(Constant.sp_useId));
+        map.put("usrId", mUserSp.getString(Constant.sp_usrId));
         map.put("content", content);
         if (file != null) {
             map.put("image", file);
         }
-        HttpRequest.post(map, Urls.UPDATE_BOLO_C, this);
+        HttpRequest.post(map, Urls.POST_BOLO_C, this);
     }
 
     @Subscribe
@@ -125,26 +128,24 @@ public class PostFlowActivity extends BaseActivity implements Callback {
             JSONObject jsonObject = new JSONObject(json);
             int code = jsonObject.getInt("code");
             if (code == 0) {
-                Toast.makeText(this, "发帖成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
                 finish();
-            } else if (code == -1) {
-                Toast.makeText(this, "小盆友，不要挑事哦，不要出现作者名称哦...", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(this, "未知错误...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void choicePic() {
         Matisse.from(this)
-                .choose(MimeType.allOf())
+                .choose(MimeType.ofAll())
                 .countable(true)
                 .maxSelectable(1)
                 .theme(R.style.Matisse_Zhihu)
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(1f)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new MyGlideEngine())
                 .forResult(REQUEST_CODE_CHOOSE);
     }
 
@@ -167,35 +168,24 @@ public class PostFlowActivity extends BaseActivity implements Callback {
     }
 
     @Override
-    public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(PostFlowActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    public void onSuccess(String str) {
+        mProgressDialog.dismiss();
+        try {
+            JSONObject object = new JSONObject(str);
+            if (object.getInt("code") == 0) {
+                Toast.makeText(PostFlowActivity.this, "发布成功！", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.d(e.getMessage());
+            Toast.makeText(PostFlowActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void onResponse(@NonNull Call call, @NonNull final Response response) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String jsonStr = response.body().string();
-                    LogUtils.d("jsonStr" + jsonStr);
-                    JSONObject object = new JSONObject(jsonStr);
-                    if (object.getInt("code") == 0) {
-                        Toast.makeText(PostFlowActivity.this, "发布成功！", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LogUtils.d(e.getMessage());
-                    Toast.makeText(PostFlowActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public void onFail(IOException e) {
+        LogUtils.e(e.getMessage());
+        mProgressDialog.dismiss();
     }
 }

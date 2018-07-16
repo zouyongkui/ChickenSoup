@@ -2,9 +2,11 @@ package com.one.zyk.soup.base;
 
 import android.support.v4.app.Fragment;
 
+import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.app.SoupApp;
 import com.one.zyk.soup.http.RetrofitCallBack;
 import com.one.zyk.soup.http.Subscribe;
+import com.one.zyk.soup.utils.SPUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,6 +19,7 @@ import retrofit2.Retrofit;
  */
 
 public class BaseFragment extends Fragment implements RetrofitCallBack {
+    protected SPUtils mUserSp = SPUtils.getInstance(Constant.db_user);
 
 
     @Override

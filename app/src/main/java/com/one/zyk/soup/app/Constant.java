@@ -7,6 +7,7 @@ package com.one.zyk.soup.app;
 public class Constant {
     public static final String db_user = "UserInfo";
     public static final String db_device = "DeviceInfo";
-    public static final String sp_useId = "UserId";
-    public static final String sp_userFace = "UserFace";
+    public static final String sp_usrId = "UserId";
+    public static final String sp_usrName = "UserName";
+    public static final String sp_usrFace = "UserFace";
 }

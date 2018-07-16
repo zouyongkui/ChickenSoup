@@ -6,11 +6,26 @@ import java.util.List;
  * Created by zyk on 2017/9/27.
  */
 
-public class SoupManageBean {
+public class SoupListEntity {
 
 
+    /**
+     * msg : suc
+     * code : 0
+     * data : [{"id":"402881fd64a1b72c0164a1c1074d0000","createtime":"2018-07-16T06:22:19.000+0000","content":"我是一条测试内容","istop":false,"visitcount":0,"pic":null}]
+     */
+
+    private String msg;
     private int code;
-    private List<SoupListBean> soupList;
+    private List<DataBean> data;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public int getCode() {
         return code;
@@ -20,21 +35,28 @@ public class SoupManageBean {
         this.code = code;
     }
 
-    public List<SoupListBean> getSoupList() {
-        return soupList;
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setSoupList(List<SoupListBean> soupList) {
-        this.soupList = soupList;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
-    public static class SoupListBean {
-
+    public static class DataBean {
+        /**
+         * id : 402881fd64a1b72c0164a1c1074d0000
+         * createtime : 2018-07-16T06:22:19.000+0000
+         * content : 我是一条测试内容
+         * istop : false
+         * visitcount : 0
+         * pic : null
+         */
 
         private String id;
         private String createtime;
         private String content;
-        private Object istop;
+        private boolean istop;
         private int visitcount;
         private Object pic;
 
@@ -62,11 +84,11 @@ public class SoupManageBean {
             this.content = content;
         }
 
-        public Object getIstop() {
+        public boolean isIstop() {
             return istop;
         }
 
-        public void setIstop(Object istop) {
+        public void setIstop(boolean istop) {
             this.istop = istop;
         }
 

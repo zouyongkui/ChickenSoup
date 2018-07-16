@@ -2,36 +2,44 @@ package com.one.zyk.soup.ui.flow.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.one.zyk.soup.R;
+import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.app.FloatBtnStatus;
 import com.one.zyk.soup.base.BaseFragment;
-import com.one.zyk.soup.bean.CommunityBean;
 import com.one.zyk.soup.bean.FlowCircleBean;
-import com.one.zyk.soup.bean.SoupManageBean;
+import com.one.zyk.soup.bean.SoupListEntity;
 import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.request.ServiceRequest;
-import com.one.zyk.soup.ui.flow.activity.FloorActivity;
 import com.one.zyk.soup.ui.flow.activity.PostFlowActivity;
 import com.one.zyk.soup.ui.flow.adapter.FlowRvAdapter;
-import com.one.zyk.soup.utils.LogUtils;
+import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.utils.SizeUtils;
+import com.one.zyk.soup.weight.CustomPopWindow;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +56,24 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
     SwipeRefreshLayout swp_refresh;
 
     private FlowRvAdapter mAdapter;
-    private List<FlowCircleBean.Data> mList;
+    private List<FlowCircleBean.DataBean> mList;
     private boolean isBottomShow = true;
     private RadioGroup mRadioGroup;
     private boolean isSlidingToLast = false;
-
     private FloatBtnStatus mStatus = FloatBtnStatus.TOP;
     private FloatingActionButton mFloBtn;
-
     private boolean isFlipperReady = false;
-
     private static final int sPageSize = 10;
     private int mCurrentIndex = 0;
-
+    private CustomPopWindow mPopWindow;
+    private TextView mTv_send;
+    private EditText mEt_comment;
+    private boolean mIsEmpty = true;
+    private View mView;
+    private String mUsrId;
+    private Drawable mDrawableNormal;
+    private Drawable mDrawableSend;
+    private String mCircleId;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -81,22 +94,26 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_flow, null);
-        ButterKnife.bind(this, view);
+        mView = inflater.inflate(R.layout.fragment_flow, null);
+        ButterKnife.bind(this, mView);
         mFloBtn = (FloatingActionButton) getActivity().findViewById(R.id.fb_post);
-        return view;
+        return mView;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mUsrId = mUserSp.getString(Constant.sp_usrId);
+        mDrawableNormal = getActivity().getDrawable(R.drawable.btn_gray);
+        mDrawableSend = getActivity().getDrawable(R.drawable.btn_blue);
+        initPopWindow();
         initCommunity();
         swp_refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light
                 , android.R.color.holo_orange_light, android.R.color.holo_green_light);
         swp_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mCurrentIndex = 0;
                 ServiceRequest.getFlowCircleList(FlowCircleFragment.this, mCurrentIndex, sPageSize);
             }
         });
@@ -115,7 +132,7 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
 
     private void initRecycleFlow() {
         final LinearLayoutManager manager = (LinearLayoutManager) rv_floor.getLayoutManager();
-        mRadioGroup = (RadioGroup) getActivity().findViewById(R.id.main_rg);
+        mRadioGroup = getActivity().findViewById(R.id.main_rg);
         rv_floor.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -127,6 +144,8 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
                     if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
                         mFloBtn.animate().translationY(mFloBtn.getHeight() + SizeUtils.dp2px(5) + mRadioGroup.getHeight());//完全隐藏
                         mStatus = FloatBtnStatus.HIDE;
+                        mCurrentIndex++;
+                        ServiceRequest.getFlowCircleList(FlowCircleFragment.this, mCurrentIndex, sPageSize);
                     }
                 }
             }
@@ -162,20 +181,27 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
 
     @Subscribe
     public void getFlowCircleList(FlowCircleBean bean) {
-        LogUtils.d("flowCircle  huoqu chenggong ");
         swp_refresh.setRefreshing(false);
-        if (bean != null) {
-            mList = bean.getData();
-            mAdapter.setList(mList);
+        if (mCurrentIndex == 0) {
+            mList.clear();
+        } else {
+            if (bean.getData().size() == 0) {
+                mCurrentIndex--;
+                mAdapter.hideBottom(true);
+                Toast.makeText(getActivity(), "没有更多内容了！", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
+        mList.addAll(bean.getData());
+        mAdapter.setList(mList);
     }
 
     @Subscribe
-    public void getSoupList(SoupManageBean bean) {
+    public void getBoloList(SoupListEntity bean) {
         isFlipperReady = true;
-        List<SoupManageBean.SoupListBean> list = bean.getSoupList();
+        List<SoupListEntity.DataBean> dataBeanList = bean.getData();
         mViewFlipper.removeAllViews();
-        for (SoupManageBean.SoupListBean listBean : list) {
+        for (SoupListEntity.DataBean listBean : dataBeanList) {
             TextView textView = new TextView(getActivity());
             textView.setPadding(SizeUtils.dp2px(10), SizeUtils.dp2px(10), SizeUtils.dp2px(10), SizeUtils.dp2px(10));
             textView.setText(listBean.getContent());
@@ -188,11 +214,27 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
                     Toast.makeText(getActivity(), "还不能点击哦！", Toast.LENGTH_SHORT).show();
                 }
             });
-//            textView.setTextSize(SizeUtils.sp2px(6));
             textView.setTextColor(Color.BLACK);
             mViewFlipper.addView(textView);
         }
-        mViewFlipper.startFlipping();
+        if (dataBeanList.size() > 1) {
+            mViewFlipper.startFlipping();
+        }
+    }
+
+    @Subscribe
+    public void postCircleComment(String str) {
+        try {
+            JSONObject object = new JSONObject(str);
+            if (object.getInt("code") == 0) {
+                Toast.makeText(getActivity(), "评论成功  ^_^", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "评论失败咯，请再试一下吧！-_-||", Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.getMessage() + " raw : " + str, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void postFloor() {
@@ -206,8 +248,63 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
     public void onRvItemClick(int position, View view) {
         switch (view.getId()) {
             case R.id.iv_postComment:
-                Toast.makeText(getActivity(), "我要开始评论了！", Toast.LENGTH_SHORT).show();
+                mCircleId = mList.get(position).getId();
+                showCommentWindow();
+                break;
+            case R.id.iv_show:
+                Toast.makeText(getActivity(), "还不能点击图片哦！ (^o^) ~~~", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void initPopWindow() {
+        mPopWindow = new CustomPopWindow.PopupWindowBuilder(getActivity())
+                .setView(R.layout.pop_comment)//显示的布局，还可以通过设置一个View
+//                .size(ScreenUtils.getScreenWidth(), SizeUtils.dp2px(50)) //设置显示的大小，不设置就默认包裹内容
+                .setFocusable(true)//是否获取焦点，默认为ture
+                .setOutsideTouchable(false)//是否PopupWindow 以外触摸dissmiss
+                .create();//创建PopupWindow
+        mTv_send = (TextView) mPopWindow.getContentView().findViewById(R.id.tv_send);
+        mEt_comment = (EditText) mPopWindow.getContentView().findViewById(R.id.et_comment);
+        mTv_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mIsEmpty) {
+                    ServiceRequest.postCircleComment(FlowCircleFragment.this, mUsrId, mEt_comment.getText().toString(), mCircleId, " ");
+                }
+                mEt_comment.setText("");
+                KeyBoardUtils.toggleKeybord(mEt_comment, getActivity());
+                mPopWindow.dissmiss();
+            }
+        });
+        mEt_comment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    mTv_send.setBackground(mDrawableNormal);
+                    mIsEmpty = true;
+                } else {
+                    mTv_send.setBackground(mDrawableSend);
+                    mIsEmpty = false;
+                }
+            }
+        });
+    }
+
+    private void showCommentWindow() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        mPopWindow.showAtLocation(mView, Gravity.TOP, 0, dm.heightPixels);
+        KeyBoardUtils.toggleKeybord(mEt_comment, getActivity());
     }
 }

@@ -1,12 +1,11 @@
 package com.one.zyk.soup.http;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.internal.Primitives;
 import com.one.zyk.soup.bean.CommentBean;
 import com.one.zyk.soup.bean.CommunityBean;
-import com.one.zyk.soup.bean.SoupBean;
-import com.one.zyk.soup.bean.SoupManageBean;
+import com.one.zyk.soup.bean.BoloEntity;
+import com.one.zyk.soup.bean.SoupListEntity;
 import com.one.zyk.soup.bean.VisitCountBean;
 
 import java.lang.reflect.Type;
@@ -23,9 +22,9 @@ public class JsonConverter {
         return Primitives.wrap(classOfT).cast(object);
     }
 
-    public static SoupBean soupBean(String json) {
+    public static BoloEntity soupBean(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, SoupBean.class);
+        return gson.fromJson(json, BoloEntity.class);
     }
 
     public static CommunityBean communityBean(String json) {
@@ -33,9 +32,9 @@ public class JsonConverter {
         return gson.fromJson(json, CommunityBean.class);
     }
 
-    public static SoupManageBean soupManageBean(String json) {
+    public static SoupListEntity soupManageBean(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, SoupManageBean.class);
+        return gson.fromJson(json, SoupListEntity.class);
     }
 
     public static CommentBean commentBean(String json) {

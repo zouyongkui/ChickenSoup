@@ -18,8 +18,10 @@ import com.one.zyk.soup.ui.manage.ReleaseSoupActivity;
 import com.one.zyk.soup.utils.KeyBoardUtils;
 import com.one.zyk.soup.ui.manage.ManagementActivity;
 import com.one.zyk.soup.utils.LogUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -79,7 +81,7 @@ public class PostCommentActivity extends BaseActivity {
                     startActivity(intent);
                     return;
                 }
-                ServiceRequest.postComment(this, mUserSp.getString(Constant.sp_useId), getIntent().getStringExtra("soupId"), et_comment.getText().toString());
+                ServiceRequest.postComment(this, mUserSp.getString(Constant.sp_usrId), getIntent().getStringExtra("boloId"), et_comment.getText().toString());
                 KeyBoardUtils.closeKeybord(et_comment, this);
                 iv_post.setEnabled(false);
                 break;
@@ -102,16 +104,12 @@ public class PostCommentActivity extends BaseActivity {
 
     @Subscribe
     public void getRefreshStatus(String json) {
-        LogUtils.d("json huo去成功" + json);
         try {
             JSONObject jsonObject = new JSONObject(json);
             int code = jsonObject.getInt("code");
             if (code == 0) {
                 Toast.makeText(this, "评论成功！", Toast.LENGTH_SHORT).show();
                 finish();
-            } else if (code == -1) {
-                et_comment.setText("");
-                Toast.makeText(this, "小盆友，不要挑事哦，不要出现作者名称哦...", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

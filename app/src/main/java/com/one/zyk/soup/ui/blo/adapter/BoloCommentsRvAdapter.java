@@ -1,6 +1,7 @@
 package com.one.zyk.soup.ui.blo.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.one.zyk.soup.R;
-import com.one.zyk.soup.bean.CommentBean;
+import com.one.zyk.soup.bean.BoloEntity;
 import com.one.zyk.soup.utils.TimeUtils;
 import com.one.zyk.soup.weight.ExpandableTextView;
 
@@ -21,39 +22,38 @@ import butterknife.ButterKnife;
  * Created by ykco on 2018/1/15.
  */
 
-public class CommentsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoloCommentsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<CommentBean.DataBean> dataBeanList;
+    private List<BoloEntity.DataBean.CommentListBean> mCommentListBeanList;
     private Context mContext;
-    private int mSize = 0;
 
-    public void setDataBeanList(List<CommentBean.DataBean> dataBeanList) {
-        this.dataBeanList = dataBeanList;
+    public void setDataBeanList(List<BoloEntity.DataBean.CommentListBean> dataBeanList) {
+        this.mCommentListBeanList = dataBeanList;
         notifyDataSetChanged();
     }
 
-    public CommentsRvAdapter(List<CommentBean.DataBean> dataBeanList, Context context) {
-        this.dataBeanList = dataBeanList;
+    public BoloCommentsRvAdapter(List<BoloEntity.DataBean.CommentListBean> dataBeanList, Context context) {
+        mCommentListBeanList = dataBeanList;
         this.mContext = context;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_comments_lv, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).tv_comment.setText((position + 1) + "# " + dataBeanList.get(position).getContent());
-        ((ViewHolder) holder).tv_postTime.setText(TimeUtils.getFriendlyTimeSpanByNow(dataBeanList.get(position).getCreatetime()));
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ((ViewHolder) holder).tv_comment.setText((position + 1) + "# " + mCommentListBeanList.get(position).getContent());
+        ((ViewHolder) holder).tv_postTime.setText(TimeUtils.getFriendlyTimeSpanByNow(mCommentListBeanList.get(position).getCreatetime()));
     }
 
     @Override
     public int getItemCount() {
-        mSize = dataBeanList == null ? 0 : dataBeanList.size();
-        return mSize;
+        return mCommentListBeanList == null ? 0 : mCommentListBeanList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

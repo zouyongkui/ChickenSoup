@@ -23,20 +23,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.app.FloatBtnStatus;
 import com.one.zyk.soup.base.BaseFragment;
-import com.one.zyk.soup.bean.CommentBean;
-import com.one.zyk.soup.bean.SoupBean;
+import com.one.zyk.soup.bean.BoloEntity;
 import com.one.zyk.soup.http.Subscribe;
 import com.one.zyk.soup.http.Urls;
 import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.ui.blo.activity.PostCommentActivity;
-import com.one.zyk.soup.ui.blo.adapter.CommentsRvAdapter;
+import com.one.zyk.soup.ui.blo.adapter.BoloCommentsRvAdapter;
 import com.one.zyk.soup.utils.DateUtil;
 import com.one.zyk.soup.utils.LogUtils;
 import com.one.zyk.soup.utils.SPUtils;
@@ -44,7 +40,6 @@ import com.one.zyk.soup.utils.ScreenUtils;
 import com.one.zyk.soup.utils.SizeUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -60,7 +55,7 @@ import butterknife.ButterKnife;
  * Function
  */
 public class BloFragment extends BaseFragment {
-    private CommentsRvAdapter mRvAdapter;
+    private BoloCommentsRvAdapter mRvAdapter;
     @BindView(R.id.rv_discuss)
     RecyclerView rv_discuss;
     @BindView(R.id.iv_detail)
@@ -79,9 +74,9 @@ public class BloFragment extends BaseFragment {
     AppBarLayout app_bar;
     private RadioGroup mRadioGroup;
     boolean isBottomShow = true;
-    private String soupId = "";
+    private String boloId = "";
 
-    private List<CommentBean.DataBean> dataBeanList;
+    private List<BoloEntity.DataBean.CommentListBean> mCommentListBeanList;
     private Date date = new Date();
     private String mDate_day = DateUtil.formatDateASD(date);
     private String mYearAndMonth = DateUtil.formatDateASYYYYMMM(date);
@@ -101,6 +96,9 @@ public class BloFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blo, null);
         ButterKnife.bind(this, view);
+        int maxSize = ScreenUtils.getScreenWidth();
+        iv_detail.setMaxWidth(maxSize);
+        iv_detail.setMaxHeight(maxSize);
         return view;
     }
 
@@ -111,6 +109,7 @@ public class BloFragment extends BaseFragment {
     }
 
     protected void initView() {
+
         app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -178,8 +177,8 @@ public class BloFragment extends BaseFragment {
             }
         });
 
-        dataBeanList = new ArrayList<>();
-        mRvAdapter = new CommentsRvAdapter(dataBeanList, getActivity());
+        mCommentListBeanList = new ArrayList<>();
+        mRvAdapter = new BoloCommentsRvAdapter(mCommentListBeanList, getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv_discuss.setLayoutManager(layoutManager);
@@ -192,37 +191,34 @@ public class BloFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void getSoup(SoupBean bean) {
+    public void getSoup(BoloEntity bean) {
         swipe_refresh.setRefreshing(false);
-        if (bean != null) {
-            soupId = bean.getSoupid();
-            dataBeanList.clear();
-            SpannableStringBuilder span = new SpannableStringBuilder("缩进" + bean.getSoup());
+        if (bean != null && bean.getCode() == 0) {
+            boloId = bean.getData().getBolo().getId();
+            mCommentListBeanList = bean.getData().getCommentList();
+            SpannableStringBuilder span = new SpannableStringBuilder("缩进" + bean.getData().getBolo().getContent());
             span.setSpan(new ForegroundColorSpan(Color.TRANSPARENT), 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tv_copyRight.setText(span);
-            for (SoupBean.DataBean d : bean.getData()) {
-                CommentBean.DataBean data = new CommentBean.DataBean();
-                data.setContent(d.getContent());
-                data.setCreatetime(d.getCreatetime());
-                data.setId(d.getId());
-                data.setSoupid(d.getSoupid());
-                data.setUserid(d.getUserid());
-                dataBeanList.add(data);
-            }
-            String picUrl = Urls.PIC_URL + bean.getPicurl();
+
+            String picUrl = Urls.PIC_URL + bean.getData().getBolo().getPic();
             LogUtils.d(picUrl);
+//            Glide.with(this)
+//                    .load(picUrl)
+//                    .placeholder(R.mipmap.bg_default)
+//                    .override(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenWidth())
+//                    .into(new SimpleTarget<GlideDrawable>() {
+//                        @Override
+//                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                            iv_detail.setAdjustViewBounds(true);
+//                            iv_detail.setImageDrawable(resource);
+//                        }
+//                    });
             Glide.with(this)
                     .load(picUrl)
-                    .placeholder(R.mipmap.bg_default)
-                    .override(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenWidth())
-                    .into(new SimpleTarget<GlideDrawable>() {
-                        @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            iv_detail.setAdjustViewBounds(true);
-                            iv_detail.setImageDrawable(resource);
-                        }
-                    });
-            mRvAdapter.setDataBeanList(dataBeanList);
+                    .into(iv_detail);
+            mRvAdapter.setDataBeanList(mCommentListBeanList);
+        } else {
+            Toast.makeText(getActivity(), "还没有内容哦！", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -248,9 +244,9 @@ public class BloFragment extends BaseFragment {
 
     public void postComment() {
         if (isVisible()) {
-            if (!TextUtils.isEmpty(soupId)) {
+            if (!TextUtils.isEmpty(boloId)) {
                 Intent intent = new Intent(getActivity(), PostCommentActivity.class);
-                intent.putExtra("soupId", soupId);
+                intent.putExtra("boloId", boloId);
                 startActivity(intent);
             } else {
                 Toast.makeText(getActivity(), "网络状态异常，请检查网络后重试", Toast.LENGTH_SHORT).show();

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,22 +11,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.base.BaseActivity;
 import com.one.zyk.soup.http.Urls;
-import com.one.zyk.soup.http.api.ServiceApi;
 import com.one.zyk.soup.http.request.HttpRequest;
-import com.one.zyk.soup.http.request.ServiceRequest;
 import com.one.zyk.soup.utils.FileUtil;
 import com.one.zyk.soup.utils.LogUtils;
-import com.one.zyk.soup.utils.ScreenUtils;
+import com.one.zyk.soup.utils.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,11 +31,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
-public class ReleaseSoupActivity extends BaseActivity implements Callback {
+
+public class ReleaseSoupActivity extends BaseActivity implements HttpRequest.MyCallBack {
     private String mContent;//所要发表的内容
     private File mFile;//所要上传的图片文件
     private static final int REQUEST_CODE_CHOOSE = 491;
@@ -58,8 +49,8 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
 
     @Override
     protected void initView() {
-    }
 
+    }
 
     @OnTextChanged(R.id.et_content)
     void queryString(CharSequence charSequence) {
@@ -97,7 +88,7 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
 //                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(1f)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new MyGlideEngine())
                 .forResult(REQUEST_CODE_CHOOSE);
     }
 
@@ -111,12 +102,7 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
                 mFile = new File(FileUtil.getRealFilePath(this, uris.get(0)));
                 Glide.with(this)
                         .load(mFile)
-                        .into(new SimpleTarget<GlideDrawable>() {
-                            @Override
-                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                                iv_add.setImageDrawable(resource);
-                            }
-                        });
+                        .into(iv_add);
             } else {
                 LogUtils.e("获取图片失败！");
             }
@@ -125,17 +111,13 @@ public class ReleaseSoupActivity extends BaseActivity implements Callback {
     }
 
     @Override
-    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        LogUtils.d(e.getMessage());
+    public void onSuccess(String str) {
+        finish();
     }
 
     @Override
-    public void onResponse(@NonNull Call call, @NonNull final Response response) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        });
+    public void onFail(IOException e) {
+        LogUtils.d(e.getMessage());
+
     }
 }

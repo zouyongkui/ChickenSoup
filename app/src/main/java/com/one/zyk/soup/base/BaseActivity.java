@@ -37,11 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Retrofit
         mUserSp = SPUtils.getInstance(Constant.db_user);
         mScreenHeight = ScreenUtils.getScreenHeight();
         mScreenWidth = ScreenUtils.getScreenWidth();
-        LogUtils.d(mScreenHeight, mScreenWidth);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(OrientationHelper.VERTICAL);
     }
-
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

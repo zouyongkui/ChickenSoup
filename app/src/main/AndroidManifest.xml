@@ -56,7 +56,7 @@
         <!-- </receiver> -->
 
         <activity android:name=".ui.blo.activity.WebActivity" />
-        <activity android:name=".ui.blo.activity.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +69,9 @@
             android:name=".ui.blo.activity.PostCommentActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.manage.ReleaseSoupActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.flow.activity.FloorActivity" />
         <activity
             android:name=".ui.blo.activity.ScrollingActivity"
