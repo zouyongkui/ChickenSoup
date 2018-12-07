@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.bm.library.PhotoView;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.app.Constant;
 import com.one.zyk.soup.app.FloatBtnStatus;
@@ -31,7 +34,9 @@ import com.one.zyk.soup.bean.FlowCircleBean;
 import com.one.zyk.soup.bean.SoupListEntity;
 import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.http.Subscribe;
+import com.one.zyk.soup.http.Urls;
 import com.one.zyk.soup.http.request.ServiceRequest;
+import com.one.zyk.soup.ui.flow.activity.PhotoViewActivity;
 import com.one.zyk.soup.ui.flow.activity.PostFlowActivity;
 import com.one.zyk.soup.ui.flow.adapter.FlowRvAdapter;
 import com.one.zyk.soup.utils.KeyBoardUtils;
@@ -63,7 +68,7 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
     private FloatBtnStatus mStatus = FloatBtnStatus.TOP;
     private FloatingActionButton mFloBtn;
     private boolean isFlipperReady = false;
-    private static final int sPageSize = 10;
+    public static final int sPageSize = 10;
     private int mCurrentIndex = 0;
     private CustomPopWindow mPopWindow;
     private TextView mTv_send;
@@ -74,6 +79,7 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
     private Drawable mDrawableNormal;
     private Drawable mDrawableSend;
     private String mCircleId;
+    private boolean isRequestIng = false;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -93,10 +99,10 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_flow, null);
         ButterKnife.bind(this, mView);
-        mFloBtn = (FloatingActionButton) getActivity().findViewById(R.id.fb_post);
+        mFloBtn = getActivity().findViewById(R.id.fb_post);
         return mView;
     }
 
@@ -106,8 +112,6 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
         mUsrId = mUserSp.getString(Constant.sp_usrId);
         mDrawableNormal = getActivity().getDrawable(R.drawable.btn_gray);
         mDrawableSend = getActivity().getDrawable(R.drawable.btn_blue);
-        initPopWindow();
-        initCommunity();
         swp_refresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light
                 , android.R.color.holo_orange_light, android.R.color.holo_green_light);
         swp_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -117,6 +121,9 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
                 ServiceRequest.getFlowCircleList(FlowCircleFragment.this, mCurrentIndex, sPageSize);
             }
         });
+        initPopWindow();
+        initCommunity();
+
     }
 
     private void initCommunity() {
@@ -145,7 +152,16 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
                         mFloBtn.animate().translationY(mFloBtn.getHeight() + SizeUtils.dp2px(5) + mRadioGroup.getHeight());//完全隐藏
                         mStatus = FloatBtnStatus.HIDE;
                         mCurrentIndex++;
-                        ServiceRequest.getFlowCircleList(FlowCircleFragment.this, mCurrentIndex, sPageSize);
+                        if (!isRequestIng) {
+                            isRequestIng = true;
+                            ServiceRequest.getFlowCircleList(FlowCircleFragment.this, mCurrentIndex, sPageSize);
+                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {//防止多次请求
+                                isRequestIng = false;
+                            }
+                        }, 300);
                     }
                 }
             }
@@ -179,8 +195,13 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
         });
     }
 
+    int i = 0;
+
     @Subscribe
     public void getFlowCircleList(FlowCircleBean bean) {
+        if (i > 0) {
+            return;
+        }
         swp_refresh.setRefreshing(false);
         if (mCurrentIndex == 0) {
             mList.clear();
@@ -194,7 +215,9 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
         }
         mList.addAll(bean.getData());
         mAdapter.setList(mList);
+        i++;
     }
+
 
     @Subscribe
     public void getBoloList(SoupListEntity bean) {
@@ -252,7 +275,9 @@ public class FlowCircleFragment extends BaseFragment implements RvOnItemClickLis
                 showCommentWindow();
                 break;
             case R.id.iv_show:
-                Toast.makeText(getActivity(), "还不能点击图片哦！ (^o^) ~~~", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
+                intent.putExtra("picUrl", Urls.PIC_URL + mList.get(position).getPicUrl());
+                getActivity().startActivity(intent);
                 break;
         }
     }

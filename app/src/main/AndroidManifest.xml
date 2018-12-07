@@ -78,7 +78,8 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.flow.activity.PostFlowActivity" />
-        <activity android:name=".ui.me.UserInfoActivity"></activity>
+        <activity android:name=".ui.me.UserInfoActivity" />
+        <activity android:name=".ui.flow.activity.PhotoViewActivity" />
     </application>
 
 </manifest>

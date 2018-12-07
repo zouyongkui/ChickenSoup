@@ -1,7 +1,11 @@
 package com.one.zyk.soup.ui.flow.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -15,12 +19,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.one.zyk.soup.R;
 import com.one.zyk.soup.bean.FlowCircleBean;
 import com.one.zyk.soup.callback.RvOnItemClickListener;
 import com.one.zyk.soup.http.Urls;
+import com.one.zyk.soup.ui.flow.fragment.FlowCircleFragment;
 import com.one.zyk.soup.utils.DateUtil;
+import com.one.zyk.soup.utils.SizeUtils;
 import com.one.zyk.soup.weight.MyListView;
 
 
@@ -55,10 +62,10 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mOnItemClickListener = listener;
         mCollapsedStatus = new SparseBooleanArray();
         faceOption = new RequestOptions()
-                .placeholder(R.mipmap.logo);
-//        picOption = new RequestOptions()
-//                .override();
-
+                .placeholder(R.mipmap.logo)
+                .override(SizeUtils.dp2px(45), SizeUtils.dp2px(45));
+        picOption = new RequestOptions()
+                .fitCenter().dontAnimate();
     }
 
     public void setList(List<FlowCircleBean.DataBean> list) {
@@ -67,7 +74,7 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mViewHolder != null) {
             //每次更新列表时 同时更新其评论信息
             mViewHolder.lv_Adapter.notifyDataSetInvalidated();
-            mViewHolder.lv_Adapter.notifyDataSetChanged();
+//            mViewHolder.lv_Adapter.notifyDataSetChanged();
         }
     }
 
@@ -97,7 +104,9 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .into(((ViewHolder) holder).iv_head);
             Glide.with(mContext)
                     .load(Urls.PIC_URL + data.getPicUrl())
+                    .apply(picOption)
                     .into(((ViewHolder) holder).iv_show);
+
             ((ViewHolder) holder).iv_postComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +148,7 @@ public class FlowRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         if (mList != null) {
-            if (mList.size() > 9) {
+            if (mList.size() >= FlowCircleFragment.sPageSize) {
                 return mList.size() + 1;
             } else {
                 return mList.size();
